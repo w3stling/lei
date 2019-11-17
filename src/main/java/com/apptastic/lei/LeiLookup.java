@@ -51,6 +51,7 @@ import static java.util.function.Predicate.not;
 /**
  * Class for doing Legal Entity Identifier (LEI) lookup.
  */
+@SuppressWarnings("squid:S2629")
 public class LeiLookup {
     private static final String LOGGER = "com.apptastic.lei";
     private static final String BASE_URL = "https://leilookup.gleif.org/api/v2/leirecords?lei=";
@@ -208,6 +209,7 @@ public class LeiLookup {
         return leiList;
     }
 
+    @SuppressWarnings("squid:S3776")
     private void parseEntity(JsonReader jsonReader, Lei lei) throws IOException {
         jsonReader.beginObject();
 
@@ -335,6 +337,7 @@ public class LeiLookup {
         return registrationAuthority;
     }
 
+    @SuppressWarnings("squid:S3776")
     private Lei.Registration parseRegistration(JsonReader jsonReader) throws IOException {
         jsonReader.beginObject();
         Lei.Registration registration = new Lei.Registration();
