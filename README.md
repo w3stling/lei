@@ -3,7 +3,7 @@ Legal Entity Identifier (LEI)
 
 [![Build Status](https://travis-ci.org/w3stling/lei.svg?branch=master)](https://travis-ci.org/w3stling/lei)
 [![Download](https://api.bintray.com/packages/apptastic/maven-repo/lei/images/download.svg)](https://bintray.com/apptastic/maven-repo/lei/_latestVersion)
-[![Javadoc](https://img.shields.io/badge/javadoc-1.0.0-blue.svg)](https://w3stling.github.io/lei/javadoc/1.0.0)
+[![Javadoc](https://img.shields.io/badge/javadoc-1.0.3-blue.svg)](https://w3stling.github.io/lei/javadoc/1.0.3)
 [![License](http://img.shields.io/:license-MIT-blue.svg?style=flat-round)](http://apptastic-software.mit-license.org)   
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=com.apptastic%3Alei&metric=alert_status)](https://sonarcloud.io/dashboard?id=com.apptastic%3Alei)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=com.apptastic%3Alei&metric=coverage)](https://sonarcloud.io/component_measures?id=com.apptastic%3Alei&metric=Coverage)
@@ -66,7 +66,7 @@ Add dependency declaration:
         <dependency>
             <groupId>com.apptastic</groupId>
             <artifactId>lei</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.3</version>
         </dependency>
     </dependencies>
     ...
@@ -84,7 +84,7 @@ repositories {
 Add dependency declaration:
 ```groovy
 dependencies {
-    implementation 'com.apptastic:lei:1.0.0'
+    implementation 'com.apptastic:lei:1.0.3'
 }
 ```
 
