@@ -80,6 +80,10 @@ compileTestJava {
 
 javadoc {
     options.encoding = "UTF-8"
+    inputs.property("moduleName", moduleName)
+    doFirst {
+        options.addStringOption('-module-path', classpath.asPath)
+    }
 }
 
 jacoco {
