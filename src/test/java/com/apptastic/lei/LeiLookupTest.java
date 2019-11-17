@@ -2,6 +2,7 @@ package com.apptastic.lei;
 
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
@@ -54,7 +55,7 @@ public class LeiLookupTest {
                               .count();
         assertEquals(4L, count1);
 
-        long count2 = leiLookup.getLei("5493001KJTIIGC8Y1R12", "4469000001AVO26P9X86", "029200067A7K6CH0H586", "029200067A7K6CH0H586")
+        long count2 = leiLookup.getLei(Arrays.asList("5493001KJTIIGC8Y1R12", "4469000001AVO26P9X86", "029200067A7K6CH0H586", "029200067A7K6CH0H586"))
                                .count();
         assertEquals(4L, count2);
     }
