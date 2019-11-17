@@ -30,6 +30,10 @@ import org.apache.commons.lang3.StringUtils;
  */
 public final class LeiCodeValidator {
 
+    private LeiCodeValidator() {
+
+    }
+
     /**
      * Validates if the formate of the LEI code is valid
      * @param leiCode LEI code
