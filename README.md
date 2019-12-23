@@ -34,7 +34,7 @@ Get a list of LEIs
 ```java
 LeiLookup lookup = LeiLookup.getInstance();
 List<Lei> lei = lookup.getLei("W22LROWP2IHZNBB6K528", "4PQUHN3JPFGFNF3BB653")
-                       .collect(Collectors.toList());
+                      .collect(Collectors.toList());
 ```
 
 
