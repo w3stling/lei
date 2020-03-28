@@ -23,8 +23,6 @@
  */
 package com.apptastic.lei;
 
-import org.apache.commons.lang3.StringUtils;
-
 /**
  * Class for validating LEI codes
  */
@@ -42,10 +40,25 @@ public final class LeiCodeValidator {
     public static boolean isValid(String leiCode) {
         return leiCode != null &&
                 leiCode.length() == 20 &&
-                StringUtils.isAlphanumeric(leiCode.substring(0, 17)) &&
+                isAlphanumeric(leiCode.substring(0, 17)) &&
                 Character.isDigit(leiCode.charAt(18)) &&
                 Character.isDigit(leiCode.charAt(19)) &&
                 isChecksumValid(leiCode);
+    }
+
+    private static boolean isAlphanumeric(final CharSequence cs) {
+        if (cs == null || cs.length() == 0) {
+            return false;
+        }
+
+        final int sz = cs.length();
+        for (int i = 0; i < sz; i++) {
+            if (!Character.isLetterOrDigit(cs.charAt(i))) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private static boolean isChecksumValid(String leiCode) {

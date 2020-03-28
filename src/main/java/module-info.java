@@ -28,7 +28,6 @@
 module com.apptastic.lei {
     requires java.logging;
     requires java.net.http;
-    requires org.apache.commons.lang3;
     requires com.google.gson;
 
     exports com.apptastic.lei;
