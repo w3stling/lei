@@ -36,9 +36,9 @@ public class LeiLookupTest {
         assertEquals("DE", lei.get().getLegalAddress().getCountry());
 
         assertEquals("2012-06-06T17:51:15+02:00", lei.get().getRegistration().getInitialRegistrationDate());
-        assertEquals("2019-05-24T08:15:21+02:00", lei.get().getRegistration().getLastUpdateDate());
+        assertEquals("2020-04-24T17:03:13+02:00", lei.get().getRegistration().getLastUpdateDate());
         assertEquals("5299000J2N45DDNE4Y28", lei.get().getRegistration().getManagingLOU());
-        assertEquals("2020-06-02T08:47:59+02:00", lei.get().getRegistration().getNextRenewalDate());
+        assertEquals("2021-06-02T08:47:59+02:00", lei.get().getRegistration().getNextRenewalDate());
         assertEquals(Lei.RegistrationStatus.ISSUED, lei.get().getRegistration().getRegistrationStatus());
         assertEquals("HRB 30000", lei.get().getRegistration().getValidationAuthorityEntityID());
         assertEquals("RA000242", lei.get().getRegistration().getValidationAuthorityID());
