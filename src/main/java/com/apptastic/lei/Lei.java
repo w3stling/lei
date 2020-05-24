@@ -23,6 +23,8 @@
  */
 package com.apptastic.lei;
 
+import java.time.ZonedDateTime;
+
 /**
  * ISO 17442 - Legal Entity Identifier (LEI).
  */
@@ -384,12 +386,30 @@ public class Lei {
         }
 
         /**
+         * Date/time the LEI record was created.
+         *
+         * @return initial registration date
+         */
+        public ZonedDateTime getInitialRegistrationDateZonedDateTime() {
+            return ZonedDateTime.parse(initialRegistrationDate);
+        }
+
+        /**
          * Date/time the LEI record was most recently updated.
          *
          * @return last update date
          */
         public String getLastUpdateDate() {
             return lastUpdateDate;
+        }
+
+        /**
+         * Date/time the LEI record was most recently updated.
+         *
+         * @return last update date
+         */
+        public ZonedDateTime getLastUpdateDateZonedDateTime() {
+            return ZonedDateTime.parse(lastUpdateDate);
         }
 
         /**
@@ -408,6 +428,15 @@ public class Lei {
          */
         public String getNextRenewalDate() {
             return nextRenewalDate;
+        }
+
+        /**
+         * The next date by which the LEI registration should be renewed and re-certified by the legal entity.
+         *
+         * @return next renewal date
+         */
+        public ZonedDateTime getNextRenewalDateZonedDateTime() {
+            return ZonedDateTime.parse(nextRenewalDate);
         }
 
         /**

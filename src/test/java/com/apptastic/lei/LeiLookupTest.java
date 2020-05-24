@@ -2,6 +2,7 @@ package com.apptastic.lei;
 
 import org.junit.Test;
 
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -36,9 +37,12 @@ public class LeiLookupTest {
         assertEquals("DE", lei.get().getLegalAddress().getCountry());
 
         assertEquals("2012-06-06T17:51:15+02:00", lei.get().getRegistration().getInitialRegistrationDate());
+        assertEquals(ZonedDateTime.parse("2012-06-06T17:51:15+02:00"), lei.get().getRegistration().getInitialRegistrationDateZonedDateTime());
         assertEquals("2020-04-24T17:03:13+02:00", lei.get().getRegistration().getLastUpdateDate());
+        assertEquals(ZonedDateTime.parse("2020-04-24T17:03:13+02:00"), lei.get().getRegistration().getLastUpdateDateZonedDateTime());
         assertEquals("5299000J2N45DDNE4Y28", lei.get().getRegistration().getManagingLOU());
         assertEquals("2021-06-02T08:47:59+02:00", lei.get().getRegistration().getNextRenewalDate());
+        assertEquals(ZonedDateTime.parse("2021-06-02T08:47:59+02:00"), lei.get().getRegistration().getNextRenewalDateZonedDateTime());
         assertEquals(Lei.RegistrationStatus.ISSUED, lei.get().getRegistration().getRegistrationStatus());
         assertEquals("HRB 30000", lei.get().getRegistration().getValidationAuthorityEntityID());
         assertEquals("RA000242", lei.get().getRegistration().getValidationAuthorityID());
