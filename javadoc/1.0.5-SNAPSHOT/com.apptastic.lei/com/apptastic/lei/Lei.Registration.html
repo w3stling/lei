@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -168,41 +168,62 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
+<td class="colFirst"><code>java.time.ZonedDateTime</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getInitialRegistrationDateZonedDateTime()">getInitialRegistrationDateZonedDateTime</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Date/time the LEI record was created.</div>
+</td>
+</tr>
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getLastUpdateDate()">getLastUpdateDate</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Date/time the LEI record was most recently updated.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code>java.time.ZonedDateTime</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getLastUpdateDateZonedDateTime()">getLastUpdateDateZonedDateTime</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Date/time the LEI record was most recently updated.</div>
+</td>
+</tr>
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getManagingLOU()">getManagingLOU</a></span>()</code></th>
 <td class="colLast">
 <div class="block">The LEI of the LOU that is responsible for administering this LEI registration.</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getNextRenewalDate()">getNextRenewalDate</a></span>()</code></th>
 <td class="colLast">
 <div class="block">The next date by which the LEI registration should be renewed and re-certified by the legal entity.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i6" class="altColor">
+<td class="colFirst"><code>java.time.ZonedDateTime</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getNextRenewalDateZonedDateTime()">getNextRenewalDateZonedDateTime</a></span>()</code></th>
+<td class="colLast">
+<div class="block">The next date by which the LEI registration should be renewed and re-certified by the legal entity.</div>
+</td>
+</tr>
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code><a href="Lei.RegistrationStatus.html" title="enum in com.apptastic.lei">Lei.RegistrationStatus</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getRegistrationStatus()">getRegistrationStatus</a></span>()</code></th>
 <td class="colLast">
 <div class="block">The status of the legal entity's LEI registration with the <code>ManagingLOU</code>.</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getValidationAuthorityEntityID()">getValidationAuthorityEntityID</a></span>()</code></th>
 <td class="colLast">
 <div class="block">The identifier of the entity at the indicated registration authority.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getValidationAuthorityID()">getValidationAuthorityID</a></span>()</code></th>
 <td class="colLast">
@@ -210,7 +231,7 @@ extends java.lang.Object</pre>
  maintained by GLEIF.</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code><a href="Lei.ValidationSource.html" title="enum in com.apptastic.lei">Lei.ValidationSource</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getValidationSource()">getValidationSource</a></span>()</code></th>
 <td class="colLast">
@@ -255,6 +276,20 @@ extends java.lang.Object</pre>
 </dl>
 </li>
 </ul>
+<a id="getInitialRegistrationDateZonedDateTime()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getInitialRegistrationDateZonedDateTime</h4>
+<pre class="methodSignature">public&nbsp;java.time.ZonedDateTime&nbsp;getInitialRegistrationDateZonedDateTime()</pre>
+<div class="block">Date/time the LEI record was created.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>initial registration date</dd>
+</dl>
+</li>
+</ul>
 <a id="getLastUpdateDate()">
 <!--   -->
 </a>
@@ -262,6 +297,20 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getLastUpdateDate</h4>
 <pre class="methodSignature">public&nbsp;java.lang.String&nbsp;getLastUpdateDate()</pre>
+<div class="block">Date/time the LEI record was most recently updated.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>last update date</dd>
+</dl>
+</li>
+</ul>
+<a id="getLastUpdateDateZonedDateTime()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getLastUpdateDateZonedDateTime</h4>
+<pre class="methodSignature">public&nbsp;java.time.ZonedDateTime&nbsp;getLastUpdateDateZonedDateTime()</pre>
 <div class="block">Date/time the LEI record was most recently updated.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -290,6 +339,20 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getNextRenewalDate</h4>
 <pre class="methodSignature">public&nbsp;java.lang.String&nbsp;getNextRenewalDate()</pre>
+<div class="block">The next date by which the LEI registration should be renewed and re-certified by the legal entity.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>next renewal date</dd>
+</dl>
+</li>
+</ul>
+<a id="getNextRenewalDateZonedDateTime()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getNextRenewalDateZonedDateTime</h4>
+<pre class="methodSignature">public&nbsp;java.time.ZonedDateTime&nbsp;getNextRenewalDateZonedDateTime()</pre>
 <div class="block">The next date by which the LEI registration should be renewed and re-certified by the legal entity.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
