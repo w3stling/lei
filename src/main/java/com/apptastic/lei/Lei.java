@@ -24,6 +24,8 @@
 package com.apptastic.lei;
 
 import java.time.ZonedDateTime;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * ISO 17442 - Legal Entity Identifier (LEI).
@@ -82,7 +84,7 @@ public class Lei {
     /**
      * The jurisdiction of legal formation and registration of the entity (and upon which the <code>LegalForm</code>
      * data element is also dependent). Please note that the XML schema validates the format of
-     * <code>LegalJurisdiction</code> codes but not the specific codes conforming to the ISO standards it reequires.
+     * <code>LegalJurisdiction</code> codes but not the specific codes conforming to the ISO standards it requires.
      *
      * @return legal jurisdiction
      */
@@ -267,6 +269,7 @@ public class Lei {
      */
     public static class Address {
         String firstAddressLine;
+        List<String> additionalAddressLine;
         String city;
         String region;
         String country;
@@ -283,6 +286,15 @@ public class Lei {
          */
         public String getFirstAddressLine() {
             return firstAddressLine;
+        }
+
+        /**
+         * One to three optional additional address line elements.
+         *
+         * @return additional address line
+         */
+        public Optional<List<String>> getAdditionalAddressLine() {
+            return Optional.ofNullable(additionalAddressLine);
         }
 
         /**

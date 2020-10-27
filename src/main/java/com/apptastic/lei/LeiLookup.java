@@ -307,6 +307,9 @@ public class LeiLookup {
             else if ("PostalCode".equals(name)) {
                 address.postalCode = getValue(jsonReader);
             }
+            else if ("AdditionalAddressLine".equals(name)) {
+                address.additionalAddressLine = getValues(jsonReader);
+            }
             else {
                 jsonReader.skipValue();
             }
@@ -459,4 +462,18 @@ public class LeiLookup {
         return value;
     }
 
+    private List<String> getValues(JsonReader jsonReader) throws IOException {
+        List<String> values = new ArrayList<>();
+        jsonReader.beginArray();
+
+        while (jsonReader.hasNext()) {
+            String value = getValue(jsonReader);
+            if (value != null) {
+                values.add(value);
+            }
+        }
+
+        jsonReader.endArray();
+        return values.isEmpty() ? null : values;
+    }
 }
