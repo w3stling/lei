@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -160,34 +160,41 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
+<td class="colFirst"><code>java.util.Optional&lt;java.util.List&lt;java.lang.String&gt;&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getAdditionalAddressLine()">getAdditionalAddressLine</a></span>()</code></th>
+<td class="colLast">
+<div class="block">One to three optional additional address line elements.</div>
+</td>
+</tr>
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getCity()">getCity</a></span>()</code></th>
 <td class="colLast">
 <div class="block">The mandatory name of the city.</div>
 </td>
 </tr>
-<tr id="i1" class="rowColor">
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getCountry()">getCountry</a></span>()</code></th>
 <td class="colLast">
 <div class="block">The 2-character ISO 3166-1 country code of the country.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getFirstAddressLine()">getFirstAddressLine</a></span>()</code></th>
 <td class="colLast">
 <div class="block">The mandatory first address line element.</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getPostalCode()">getPostalCode</a></span>()</code></th>
 <td class="colLast">
 <div class="block">The (optional) postal code of this address as specified by the local postal service.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getRegion()">getRegion</a></span>()</code></th>
 <td class="colLast">
@@ -229,6 +236,20 @@ extends java.lang.Object</pre>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>first address line</dd>
+</dl>
+</li>
+</ul>
+<a id="getAdditionalAddressLine()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getAdditionalAddressLine</h4>
+<pre class="methodSignature">public&nbsp;java.util.Optional&lt;java.util.List&lt;java.lang.String&gt;&gt;&nbsp;getAdditionalAddressLine()</pre>
+<div class="block">One to three optional additional address line elements.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>additional address line</dd>
 </dl>
 </li>
 </ul>
