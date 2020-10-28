@@ -474,6 +474,6 @@ public class LeiLookup {
         }
 
         jsonReader.endArray();
-        return values.isEmpty() ? null : values;
+        return values.isEmpty() ? Collections.emptyList() : values;
     }
 }

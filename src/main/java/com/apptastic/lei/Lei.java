@@ -24,8 +24,8 @@
 package com.apptastic.lei;
 
 import java.time.ZonedDateTime;
+import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * ISO 17442 - Legal Entity Identifier (LEI).
@@ -276,7 +276,7 @@ public class Lei {
         String postalCode;
 
         Address() {
-
+            additionalAddressLine = Collections.emptyList();
         }
 
         /**
@@ -293,8 +293,8 @@ public class Lei {
          *
          * @return additional address line
          */
-        public Optional<List<String>> getAdditionalAddressLine() {
-            return Optional.ofNullable(additionalAddressLine);
+        public List<String> getAdditionalAddressLine() {
+            return additionalAddressLine;
         }
 
         /**

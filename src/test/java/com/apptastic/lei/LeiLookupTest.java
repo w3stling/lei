@@ -25,14 +25,14 @@ public class LeiLookupTest {
         assertEquals(Lei.EntityStatus.ACTIVE, lei.get().getEntityStatus());
 
         assertEquals("Taunusanlage 12", lei.get().getHeadquartersAddress().getFirstAddressLine());
-        assertFalse(lei.get().getHeadquartersAddress().getAdditionalAddressLine().isPresent());
+        assertEquals(0, lei.get().getLegalAddress().getAdditionalAddressLine().size());
         assertEquals("60325", lei.get().getHeadquartersAddress().getPostalCode());
         assertEquals("Frankfurt am Main", lei.get().getHeadquartersAddress().getCity());
         assertEquals("DE-HE", lei.get().getHeadquartersAddress().getRegion());
         assertEquals("DE", lei.get().getHeadquartersAddress().getCountry());
 
         assertEquals("Taunusanlage 12", lei.get().getLegalAddress().getFirstAddressLine());
-        assertFalse(lei.get().getHeadquartersAddress().getAdditionalAddressLine().isPresent());
+        assertEquals(0, lei.get().getHeadquartersAddress().getAdditionalAddressLine().size());
         assertEquals("60325", lei.get().getLegalAddress().getPostalCode());
         assertEquals("Frankfurt am Main", lei.get().getLegalAddress().getCity());
         assertEquals("DE-HE", lei.get().getLegalAddress().getRegion());
