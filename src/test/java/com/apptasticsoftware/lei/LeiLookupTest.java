@@ -9,10 +9,10 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class LeiLookupTest {
+class LeiLookupTest {
 
     @Test
-    public void testLookup() {
+    void testLookup() {
         LeiLookup leiLookup = LeiLookup.getInstance();
         Optional<Lei> lei = leiLookup.getLei("7LTWFZYICNSX8D621K86");
 
@@ -55,7 +55,7 @@ public class LeiLookupTest {
     }
 
     @Test
-    public void testLookupList() {
+    void testLookupList() {
         LeiLookup leiLookup = LeiLookup.getInstance();
         long count1 = leiLookup.getLei("5493001KJTIIGC8Y1R12", "4469000001AVO26P9X86", "029200067A7K6CH0H586", "029200067A7K6CH0H586")
                               .count();
@@ -67,7 +67,7 @@ public class LeiLookupTest {
     }
 
     @Test
-    public void testLookupCache() {
+    void testLookupCache() {
         LeiLookup leiLookup = LeiLookup.getInstance(1);
         Optional<Lei> lei1 = leiLookup.getLei("5493001KJTIIGC8Y1R12");
         assertTrue(lei1.isPresent());
@@ -83,7 +83,7 @@ public class LeiLookupTest {
     }
 
     @Test
-    public void testLookupFailed() {
+    void testLookupFailed() {
         LeiLookup leiLookup = LeiLookup.getInstance();
         Optional<Lei> lei = leiLookup.getLei("ABC123");
 

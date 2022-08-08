@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class LeiCodeValidatorTest {
+class LeiCodeValidatorTest {
 
     @Test
-    public void validLeiCode() {
+    void validLeiCode() {
         assertTrue(LeiCodeValidator.isValid("W22LROWP2IHZNBB6K528"));
         assertTrue(LeiCodeValidator.isValid("254900G6F27CHW2A7F31"));
         assertTrue(LeiCodeValidator.isValid("254900A1XHW5VXMTHH06"));
@@ -17,7 +17,7 @@ public class LeiCodeValidatorTest {
     }
 
     @Test
-    public void invalidLeiCode() {
+    void invalidLeiCode() {
         assertFalse(LeiCodeValidator.isValid("W22LROWP2IHZNBB6K52"));
         assertFalse(LeiCodeValidator.isValid("W22LROWP2I@ZNBB6K528"));
         assertFalse(LeiCodeValidator.isValid("W22LROWP2IHZNBB6K52A"));
