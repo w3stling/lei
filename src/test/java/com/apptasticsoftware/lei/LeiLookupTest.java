@@ -1,4 +1,4 @@
-package com.apptastic.lei;
+package com.apptasticsoftware.lei;
 
 import org.junit.jupiter.api.Test;
 

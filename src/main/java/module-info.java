@@ -23,12 +23,12 @@
  */
 
 /**
- * This modules defines the base APIs for LEI.
+ * These modules define the base APIs for LEI.
  */
-module com.apptastic.lei {
+module com.apptasticsoftware.lei {
     requires java.logging;
     requires java.net.http;
     requires com.google.gson;
 
-    exports com.apptastic.lei;
+    exports com.apptasticsoftware.lei;
 }

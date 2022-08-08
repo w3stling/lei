@@ -25,4 +25,4 @@
 /**
  * This package is intended for LEI.
  */
-package com.apptastic.lei;
+package com.apptasticsoftware.lei;
