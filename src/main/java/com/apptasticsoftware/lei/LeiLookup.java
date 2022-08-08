@@ -174,6 +174,7 @@ public class LeiLookup {
         return Stream.empty();
     }
 
+    @SuppressWarnings("java:S3776")
     private List<Lei> parseResponse(BufferedReader reader) throws IOException {
         List<Lei> leiList = new ArrayList<>();
         JsonReader jsonReader = new JsonReader(reader);
@@ -331,6 +332,7 @@ public class LeiLookup {
         return legalName;
     }
 
+    @SuppressWarnings("java:S3776")
     private Lei.Address parseAddress(JsonReader jsonReader) throws IOException {
         Lei.Address legalAddress = new Lei.Address();
         jsonReader.beginObject();

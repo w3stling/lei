@@ -11,7 +11,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class LeiLookupTest {
 
+
     @Test
+    @SuppressWarnings("java:S5961")
     void testLookup() {
         LeiLookup leiLookup = LeiLookup.getInstance();
         Optional<Lei> lei = leiLookup.getLei("7LTWFZYICNSX8D621K86");
