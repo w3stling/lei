@@ -73,7 +73,7 @@ public class Lei {
 
     /**
      * A current code from the GLEIF-maintained list MUST be used. Values of the LegalFormEnum code list are maintained
-     * by ISO / GLEIF through the Entity Legal Form (ELF), available from http://www.gleif.org.
+     * by ISO / GLEIF through the Entity Legal Form (ELF), available from <a href="http://www.gleif.org">GLEIF</a>.
      *
      * @return entity legal form code
      */
@@ -95,7 +95,7 @@ public class Lei {
     /**
      * Indicates (where applicable) the category of entity identified by this LEI data record, as a more specific
      * category within the broad definition given in ISO 17442. These categories are based on use cases specified
-     * in LEI-ROC policies, found at http://www.leiroc.org/list/leiroc_gls/index.htm
+     * in LEI-ROC policies, found at <a href="http://www.leiroc.org/list/leiroc_gls/index.htm">LEI-ROC</a>
      *
      * @return entity category
      */
@@ -144,7 +144,7 @@ public class Lei {
     /**
      * Indicates (where applicable) the category of entity identified by this LEI data record, as a more specific
      * category within the broad definition given in ISO 17442. These categories are based on use cases specified
-     * in LEI-ROC policies, found at http://www.leiroc.org/list/leiroc_gls/index.htm
+     * in LEI-ROC policies, found at <a href="http://www.leiroc.org/list/leiroc_gls/index.htm">LEI-ROC</a>
      */
     public enum EntityCategory {
         /**
@@ -158,7 +158,11 @@ public class Lei {
         /**
          * The legal entity is an individual acting in a business capacity.
          */
-        SOLE_PROPRIETOR
+        SOLE_PROPRIETOR,
+        /**
+         * The legal entity is a general entity.
+         */
+        GENERAL,
     }
 
     /**

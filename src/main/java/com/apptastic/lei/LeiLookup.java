@@ -54,10 +54,10 @@ import static java.util.function.Predicate.not;
 @SuppressWarnings("squid:S2629")
 public class LeiLookup {
     private static final String LOGGER = "com.apptastic.lei";
-    private static final String BASE_URL = "https://leilookup.gleif.org/api/v2/leirecords?lei=";
+    private static final String BASE_URL = "https://api.gleif.org/api/v1/lei-records?filter[lei]=";
     private static LeiLookup instance;
     private final int cacheSize;
-    private ConcurrentSkipListMap<String, Lei> cache;
+    private final ConcurrentSkipListMap<String, Lei> cache;
 
     /**
      * Get instance for doing LEI lookups.
@@ -135,7 +135,7 @@ public class LeiLookup {
                              .filter(LeiCodeValidator::isValid)
                              .collect(Collectors.joining(","));
 
-        if (param == null || param.isEmpty()) {
+        if (param.isEmpty()) {
             return Stream.empty();
         }
 
@@ -174,39 +174,72 @@ public class LeiLookup {
         List<Lei> leiList = new ArrayList<>();
         JsonReader jsonReader = new JsonReader(reader);
 
-        if (jsonReader.peek() == JsonToken.BEGIN_OBJECT) {
+        if (jsonReader.peek() != JsonToken.BEGIN_OBJECT) {
             return Collections.emptyList();
         }
 
-        jsonReader.beginArray();
+        jsonReader.beginObject();
 
         while (jsonReader.hasNext()) {
-            Lei lei = new Lei();
-            jsonReader.beginObject();
+            String name = jsonReader.nextName();
+            if ("data".equals(name)) {
 
-            while (jsonReader.hasNext()) {
-                String name = jsonReader.nextName();
-                if ("LEI".equals(name)) {
-                    lei.leiCode = getValue(jsonReader);
-                } else if ("Entity".equals(name)) {
-                    parseEntity(jsonReader, lei);
-                } else if ("Registration".equals(name)) {
-                    lei.registration = parseRegistration(jsonReader);
-                } else {
-                    jsonReader.skipValue();
+                jsonReader.beginArray();
+
+                while (jsonReader.hasNext()) {
+                    Lei lei = new Lei();
+                    jsonReader.beginObject();
+
+                    boolean isLeiRecord = false;
+                    while (jsonReader.hasNext()) {
+                        name = jsonReader.nextName();
+
+                        if ("type".equals(name)) {
+                            isLeiRecord = "lei-records".equals(jsonReader.nextString());
+                        }
+                        else if (isLeiRecord && "attributes".equals(name)) {
+                            parseAttributes(jsonReader, lei);
+                        } else {
+                            jsonReader.skipValue();
+                        }
+                    }
+
+                    //if (lei.leiCode != null && lei.legalName != null) {
+                    if (lei.leiCode != null) {
+                        leiList.add(lei);
+                    }
+
+                    jsonReader.endObject();
                 }
-            }
 
-            if (lei.leiCode != null && lei.legalName != null) {
-                leiList.add(lei);
-            }
+                jsonReader.endArray();
 
-            jsonReader.endObject();
+            } else {
+                jsonReader.skipValue();
+            }
         }
 
-        jsonReader.endArray();
+        jsonReader.endObject();
 
         return leiList;
+    }
+
+    private void parseAttributes(JsonReader jsonReader, Lei lei) throws IOException {
+        jsonReader.beginObject();
+        while (jsonReader.hasNext()) {
+            String name = jsonReader.nextName();
+
+            if ("lei".equals(name)) {
+                lei.leiCode = jsonReader.nextString();
+            } else if ("entity".equals(name)) {
+                parseEntity(jsonReader, lei);
+            } else if ("registration".equals(name)) {
+                lei.registration = parseRegistration(jsonReader);
+            } else {
+                jsonReader.skipValue();
+            }
+        }
+        jsonReader.endObject();
     }
 
     @SuppressWarnings("squid:S3776")
@@ -215,42 +248,55 @@ public class LeiLookup {
 
         while (jsonReader.hasNext()) {
             String name = jsonReader.nextName();
-            if ("LegalName".equals(name)) {
-                lei.legalName = getValue(jsonReader);
+            if ("legalName".equals(name)) {
+                lei.legalName = parseLegalName(jsonReader);
             }
-            else if ("LegalAddress".equals(name)) {
-                Lei.Address address = parseAddress(jsonReader);
-                lei.legalAddress = address;
+            else if ("legalAddress".equals(name)) {
+                lei.legalAddress = parseAddress(jsonReader);
             }
-            else if ("HeadquartersAddress".equals(name)) {
-                Lei.Address address = parseAddress(jsonReader);
-                lei.headquartersAddress = address;
+            else if ("headquartersAddress".equals(name)) {
+                lei.headquartersAddress = parseAddress(jsonReader);
             }
-            else if ("RegistrationAuthority".equals(name)) {
+            else if ("registeredAt".equals(name)) {
                 Lei.RegistrationAuthority registrationAuthority = parseRegistrationAuthority(jsonReader);
-                lei.registrationAuthority = registrationAuthority;
+                if (lei.registrationAuthority == null) {
+                    lei.registrationAuthority = registrationAuthority;
+                } else {
+                    lei.registrationAuthority.registrationAuthorityID = registrationAuthority.registrationAuthorityID;
+                }
             }
-            else if ("LegalJurisdiction".equals(name)) {
-                lei.legalJurisdiction = getValue(jsonReader);
+            else if ("registeredAs".equals(name)) {
+                if (lei.registrationAuthority == null) {
+                    Lei.RegistrationAuthority registrationAuthority = new Lei.RegistrationAuthority();
+                    registrationAuthority.registrationAuthorityEntityID = jsonReader.nextString();
+                    lei.registrationAuthority = registrationAuthority;
+                } else {
+                    lei.registrationAuthority.registrationAuthorityEntityID = jsonReader.nextString();
+                }
             }
-            else if ("EntityCategory".equals(name)) {
-                String value = getValue(jsonReader);
+            else if ("jurisdiction".equals(name)) {
+                lei.legalJurisdiction = jsonReader.nextString();
+            }
+            else if ("category".equals(name)) {
+                String value = jsonReader.nextString();
                 if ("BRANCH".equals(value))
                     lei.entityCategory = Lei.EntityCategory.BRANCH;
                 else if ("FUND".equals(value))
                     lei.entityCategory = Lei.EntityCategory.FUND;
                 else if ("SOLE_PROPRIETOR".equals(value))
                     lei.entityCategory = Lei.EntityCategory.SOLE_PROPRIETOR;
+                else if ("GENERAL".equals(value))
+                    lei.entityCategory = Lei.EntityCategory.GENERAL;
                 else {
                     var logger = Logger.getLogger(LOGGER);
                     logger.severe("Unknown value for entity category: " + value);
                 }
             }
-            else if ("LegalForm".equals(name)) {
-                lei.entityLegalFormCode = parseEntityLegalFormCode(jsonReader);
+            else if ("legalForm".equals(name)) {
+                lei.entityLegalFormCode = parseLegalForm(jsonReader);
             }
-            else if ("EntityStatus".equals(name)) {
-                String value = getValue(jsonReader);
+            else if ("status".equals(name)) {
+                String value = jsonReader.nextString();
                 if ("ACTIVE".equals(value))
                     lei.entityStatus = Lei.EntityStatus.ACTIVE;
                 else if ("INACTIVE".equals(value))
@@ -264,18 +310,70 @@ public class LeiLookup {
                 jsonReader.skipValue();
             }
         }
-
         jsonReader.endObject();
     }
 
-    private String parseEntityLegalFormCode(JsonReader jsonReader) throws IOException {
+    private String parseLegalName(JsonReader jsonReader) throws IOException {
+        String legalName = null;
+        jsonReader.beginObject();
+        while (jsonReader.hasNext()) {
+            String name = jsonReader.nextName();
+            if ("name".equals(name)) {
+                legalName = jsonReader.nextString();
+            } else {
+                jsonReader.skipValue();
+            }
+        }
+        jsonReader.endObject();
+        return legalName;
+    }
+
+    private Lei.Address parseAddress(JsonReader jsonReader) throws IOException {
+        Lei.Address legalAddress = new Lei.Address();
+        jsonReader.beginObject();
+        while (jsonReader.hasNext()) {
+            String name = jsonReader.nextName();
+            if ("addressLines".equals(name)) {
+                jsonReader.beginArray();
+                String firstLine = null;
+                List<String> additionalAddressLine = new ArrayList<>();
+                while (jsonReader.hasNext()) {
+                    String value = jsonReader.nextString();
+                    if (firstLine == null) {
+                        firstLine = value;
+                    } else {
+                        additionalAddressLine.add(value);
+                    }
+                }
+                legalAddress.firstAddressLine = firstLine;
+                if (!additionalAddressLine.isEmpty()) {
+                    legalAddress.additionalAddressLine = additionalAddressLine;
+                }
+                jsonReader.endArray();
+            } else if ("postalCode".equals(name)) {
+                legalAddress.postalCode = jsonReader.nextString();
+            } else if ("region".equals(name)) {
+                legalAddress.region = jsonReader.nextString();
+            } else if ("city".equals(name)) {
+                legalAddress.city = jsonReader.nextString();
+            } else if ("country".equals(name)) {
+                legalAddress.country = jsonReader.nextString();
+            } else {
+                jsonReader.skipValue();
+            }
+        }
+        jsonReader.endObject();
+        return legalAddress;
+    }
+
+    private String parseLegalForm(JsonReader jsonReader) throws IOException {
         jsonReader.beginObject();
         String entityLegalFormCode = null;
 
         while (jsonReader.hasNext()) {
             String name = jsonReader.nextName();
-            if ("EntityLegalFormCode".equals(name)) {
-                entityLegalFormCode = getValue(jsonReader);
+            if ("id".equals(name)) {
+                entityLegalFormCode = jsonReader.nextString();
             }
             else {
                 jsonReader.skipValue();
@@ -286,50 +384,14 @@ public class LeiLookup {
         return entityLegalFormCode;
     }
 
-    private Lei.Address parseAddress(JsonReader jsonReader) throws IOException {
-        jsonReader.beginObject();
-        Lei.Address address = new Lei.Address();
-
-        while (jsonReader.hasNext()) {
-            String name = jsonReader.nextName();
-            if ("FirstAddressLine".equals(name)) {
-                address.firstAddressLine = getValue(jsonReader);
-            }
-            else if ("City".equals(name)) {
-                address.city = getValue(jsonReader);
-            }
-            else if ("Region".equals(name)) {
-                address.region = getValue(jsonReader);
-            }
-            else if ("Country".equals(name)) {
-                address.country = getValue(jsonReader);
-            }
-            else if ("PostalCode".equals(name)) {
-                address.postalCode = getValue(jsonReader);
-            }
-            else if ("AdditionalAddressLine".equals(name)) {
-                address.additionalAddressLine = getValues(jsonReader);
-            }
-            else {
-                jsonReader.skipValue();
-            }
-        }
-
-        jsonReader.endObject();
-        return address;
-    }
-
     private Lei.RegistrationAuthority parseRegistrationAuthority(JsonReader jsonReader) throws IOException {
         jsonReader.beginObject();
         Lei.RegistrationAuthority registrationAuthority = new Lei.RegistrationAuthority();
 
         while (jsonReader.hasNext()) {
             String name = jsonReader.nextName();
-            if ("RegistrationAuthorityID".equals(name)) {
-                registrationAuthority.registrationAuthorityID = getValue(jsonReader);
-            }
-            else if ("RegistrationAuthorityEntityID".equals(name)) {
-                registrationAuthority.registrationAuthorityEntityID = getValue(jsonReader);
+            if ("id".equals(name)) {
+                registrationAuthority.registrationAuthorityID = jsonReader.nextString();
             }
             else {
                 jsonReader.skipValue();
@@ -347,14 +409,14 @@ public class LeiLookup {
 
         while (jsonReader.hasNext()) {
             String name = jsonReader.nextName();
-            if ("InitialRegistrationDate".equals(name)) {
-                registration.initialRegistrationDate = getValue(jsonReader);
+            if ("initialRegistrationDate".equals(name)) {
+                registration.initialRegistrationDate = jsonReader.nextString();
             }
-            else if ("LastUpdateDate".equals(name)) {
-                registration.lastUpdateDate = getValue(jsonReader);
+            else if ("lastUpdateDate".equals(name)) {
+                registration.lastUpdateDate = jsonReader.nextString();
             }
-            else if ("RegistrationStatus".equals(name)) {
-                String value = getValue(jsonReader);
+            else if ("status".equals(name)) {
+                String value = jsonReader.nextString();
                 if (value == null)
                     continue;
 
@@ -397,14 +459,14 @@ public class LeiLookup {
                         logger.severe("Unknown value for registration status: " + value);
                 }
             }
-            else if ("NextRenewalDate".equals(name)) {
-                registration.nextRenewalDate = getValue(jsonReader);
+            else if ("nextRenewalDate".equals(name)) {
+                registration.nextRenewalDate = jsonReader.nextString();
             }
-            else if ("ManagingLOU".equals(name)) {
-                registration.managingLOU = getValue(jsonReader);
+            else if ("managingLou".equals(name)) {
+                registration.managingLOU = jsonReader.nextString();
             }
-            else if ("ValidationSources".equals(name)) {
-                String value = getValue(jsonReader);
+            else if ("corroborationLevel".equals(name)) {
+                String value = jsonReader.nextString();
                 if ("PENDING".equals(value))
                     registration.validationSource = Lei.ValidationSource.PENDING;
                 else if ("ENTITY_SUPPLIED_ONLY".equals(value))
@@ -418,23 +480,20 @@ public class LeiLookup {
                     logger.severe("Unknown value for validation sources: " + value);
                 }
             }
-            else if ("ValidationAuthority".equals(name)) {
+            else if ("validatedAt".equals(name)) {
                 jsonReader.beginObject();
-
                 while (jsonReader.hasNext()) {
                     name = jsonReader.nextName();
-                    if ("ValidationAuthorityID".equals(name)) {
-                        registration.validationAuthorityID = getValue(jsonReader);
-                    }
-                    else if ("ValidationAuthorityEntityID".equals(name)) {
-                        registration.validationAuthorityEntityID = getValue(jsonReader);
-                    }
-                    else {
+                    if ("id".equals(name)) {
+                        registration.validationAuthorityID = jsonReader.nextString();
+                    } else {
                         jsonReader.skipValue();
                     }
                 }
-
                 jsonReader.endObject();
+            }
+            else if ("validatedAs".equals(name)) {
+                registration.validationAuthorityEntityID = jsonReader.nextString();
             }
             else {
                 jsonReader.skipValue();
@@ -443,37 +502,5 @@ public class LeiLookup {
 
         jsonReader.endObject();
         return registration;
-    }
-
-    private String getValue(JsonReader jsonReader) throws IOException {
-        String value = null;
-        jsonReader.beginObject();
-
-        while (jsonReader.hasNext()) {
-            String name = jsonReader.nextName();
-            if ("$".equals(name)) {
-                value = jsonReader.nextString();
-            } else {
-                jsonReader.skipValue();
-            }
-        }
-
-        jsonReader.endObject();
-        return value;
-    }
-
-    private List<String> getValues(JsonReader jsonReader) throws IOException {
-        List<String> values = new ArrayList<>();
-        jsonReader.beginArray();
-
-        while (jsonReader.hasNext()) {
-            String value = getValue(jsonReader);
-            if (value != null) {
-                values.add(value);
-            }
-        }
-
-        jsonReader.endArray();
-        return values.isEmpty() ? Collections.emptyList() : values;
     }
 }
