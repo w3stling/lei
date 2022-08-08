@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.apptastic.lei;
+package com.apptasticsoftware.lei;
 
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;

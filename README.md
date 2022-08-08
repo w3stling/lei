@@ -2,8 +2,8 @@ Legal Entity Identifier (LEI)
 =============================
 
 [![Build](https://github.com/w3stling/lei/actions/workflows/build.yml/badge.svg)](https://github.com/w3stling/lei/actions/workflows/build.yml)
-[![Download](https://img.shields.io/badge/download-1.2.1-brightgreen.svg)](https://search.maven.org/artifact/com.apptasticsoftware/lei/1.2.1/jar)
-[![Javadoc](https://img.shields.io/badge/javadoc-1.2.1-blue.svg)](https://w3stling.github.io/lei/javadoc/1.2.1)
+[![Download](https://img.shields.io/badge/download-2.0.0-brightgreen.svg)](https://search.maven.org/artifact/com.apptasticsoftware/lei/2.0.0/jar)
+[![Javadoc](https://img.shields.io/badge/javadoc-2.0.0-blue.svg)](https://w3stling.github.io/lei/javadoc/2.0.0)
 [![License](http://img.shields.io/:license-MIT-blue.svg?style=flat-round)](http://apptastic-software.mit-license.org)   
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=w3stling_lei&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=w3stling_lei)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=w3stling_lei&metric=coverage)](https://sonarcloud.io/summary/new_code?id=w3stling_lei)
@@ -50,9 +50,9 @@ Add dependency declaration:
     ...
     <dependencies>
         <dependency>
-            <groupId>com.apptastic</groupId>
+            <groupId>com.apptasticsoftware</groupId>
             <artifactId>lei</artifactId>
-            <version>1.2.1</version>
+            <version>2.0.0</version>
         </dependency>
     </dependencies>
     ...
@@ -63,7 +63,7 @@ Add dependency declaration:
 Add dependency declaration:
 ```groovy
 dependencies {
-    implementation 'com.apptastic:lei:1.2.1'
+    implementation 'com.apptasticsoftware:lei:2.0.0'
 }
 ```
 
@@ -74,7 +74,7 @@ License
 
     MIT License
     
-    Copyright (c) 2020, Apptastic Software
+    Copyright (c) 2022, Apptastic Software
     
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal

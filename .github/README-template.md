@@ -50,7 +50,7 @@ Add dependency declaration:
     ...
     <dependencies>
         <dependency>
-            <groupId>com.apptastic</groupId>
+            <groupId>com.apptasticsoftware</groupId>
             <artifactId>lei</artifactId>
             <version>%%version%%</version>
         </dependency>
@@ -63,7 +63,7 @@ Add dependency declaration:
 Add dependency declaration:
 ```groovy
 dependencies {
-    implementation 'com.apptastic:lei:%%version%%'
+    implementation 'com.apptasticsoftware:lei:%%version%%'
 }
 ```
 
