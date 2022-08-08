@@ -11,6 +11,11 @@ Legal Entity Identifier (LEI)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=w3stling_lei&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=w3stling_lei)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=w3stling_lei&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=w3stling_lei)
 
+> **Note** - from version 2.0.0:
+> * New Java package name
+> * New group ID in Maven / Gradle dependency declaration
+> * Moved repository from `JCenter` to `Maven Central Repository`
+
 The Legal Entity Identifier (LEI) is unique global identifier of legal entities participating in financial transactions.
 These can be individuals, companies or government entities that participate in financial transaction.
 The identifier is used in reporting to financial regulators and all financial companies and funds are required to have an LEI.
