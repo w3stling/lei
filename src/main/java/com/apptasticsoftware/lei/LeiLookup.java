@@ -162,6 +162,10 @@ public class LeiLookup {
             var reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
             List<Lei> leiList = parseResponse(new BufferedReader(reader));
             return leiList.stream();
+        } catch (InterruptedException e) {
+            var logger = Logger.getLogger(LOGGER);
+            logger.severe(e.getMessage());
+            Thread.currentThread().interrupt();
         } catch (Exception e) {
             var logger = Logger.getLogger(LOGGER);
             logger.severe(e.getMessage());
@@ -204,7 +208,6 @@ public class LeiLookup {
                         }
                     }
 
-                    //if (lei.leiCode != null && lei.legalName != null) {
                     if (lei.leiCode != null) {
                         leiList.add(lei);
                     }
