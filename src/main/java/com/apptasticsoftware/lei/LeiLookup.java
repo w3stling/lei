@@ -35,15 +35,10 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import java.util.zip.GZIPInputStream;
 
 import static java.util.function.Predicate.not;
@@ -58,13 +53,14 @@ public class LeiLookup {
     private static LeiLookup instance;
     private final int cacheSize;
     private final ConcurrentSkipListMap<String, Lei> cache;
+    private final ConcurrentSkipListMap<String, Integer> notFoundCache;
 
     /**
      * Get instance for doing LEI lookups.
      * @return instance
      */
     public static LeiLookup getInstance() {
-        return getInstance(1000000);
+        return getInstance(500000);
     }
 
     /**
@@ -83,6 +79,7 @@ public class LeiLookup {
     private LeiLookup(int cacheSize) {
         this.cacheSize = cacheSize;
         cache = new ConcurrentSkipListMap<>();
+        notFoundCache = new ConcurrentSkipListMap<>();
     }
 
     /**
@@ -91,10 +88,16 @@ public class LeiLookup {
      * @return lei
      */
     public Optional<Lei> getLei(String leiCode) {
-        Lei lei = cache.computeIfAbsent(leiCode, x -> search(x).findFirst().orElse(null));
+        if (!LeiCodeValidator.isValid(leiCode) || notFoundCache.containsKey(leiCode)) {
+            return Optional.empty();
+        }
 
-        if (cache.size() > cacheSize) {
-            cache.pollLastEntry();
+        Lei lei = cache.computeIfAbsent(leiCode, x -> search(x).stream().findFirst().orElse(null));
+
+        if (lei != null) {
+            put(lei);
+        } else {
+            put(leiCode);
         }
 
         return Optional.ofNullable(lei);
@@ -105,38 +108,60 @@ public class LeiLookup {
      * @param leiCode - List of LEI codes
      * @return stream of LEIs
      */
-    public Stream<Lei> getLei(List<String> leiCode) {
+    public List<Lei> getLei(Set<String> leiCode) {
         return getLei(leiCode.toArray(String[]::new));
     }
 
     /**
      * Get LEI entries by LEI codes.
-     * @param leiCode - Array of LEI codes
-     * @return stream of LEIs
+     * @param leiCodes - Array of LEI codes
+     * @return List of LEIs
      */
-    public Stream<Lei> getLei(String... leiCode) {
-        String[] missingLeiCodes = Arrays.stream(leiCode)
-                                         .distinct()
-                                         .filter(not(cache::containsKey))
-                                         .toArray(String[]::new);
+    public List<Lei> getLei(String... leiCodes) {
+        String[] searchForLeiCodes = Arrays.stream(leiCodes)
+                                           .distinct()
+                                           .filter(LeiCodeValidator::isValid)
+                                           .filter(not(notFoundCache::containsKey))
+                                           .filter(not(cache::containsKey))
+                                           .toArray(String[]::new);
 
-        search(missingLeiCodes).forEach(l -> cache.put(l.getLeiCode(), l));
+        Set<String> notFound = new HashSet<>(Set.of(searchForLeiCodes));
 
-        while (cache.size() > cacheSize) {
-            cache.pollLastEntry();
-        }
+        search(searchForLeiCodes).forEach(lei -> {
+            notFound.remove(lei.getLeiCode());
+            put(lei);
+        });
 
-        return Arrays.stream(leiCode).map(cache::get);
+        notFound.forEach(this::put);
+
+        return Arrays.stream(leiCodes)
+                     .map(cache::get)
+                     .filter(Objects::nonNull)
+                     .collect(Collectors.toList());
     }
 
-    private Stream<Lei> search(String... leiCode) {
+    private void put(Lei lei) {
+        cache.put(lei.getLeiCode(), lei);
+        if (cache.size() > cacheSize) {
+            cache.pollLastEntry();
+        }
+    }
+
+    private void put(String lei) {
+        notFoundCache.put(lei, null);
+        if (notFoundCache.size() > cacheSize) {
+            notFoundCache.pollLastEntry();
+        }
+    }
+
+    private List<Lei> search(String... leiCode) {
         String param = Arrays.stream(leiCode)
                              .distinct()
                              .filter(LeiCodeValidator::isValid)
                              .collect(Collectors.joining(","));
 
         if (param.isEmpty()) {
-            return Stream.empty();
+            return Collections.emptyList();
         }
 
         try {
@@ -160,8 +185,7 @@ public class LeiLookup {
                 inputStream = new GZIPInputStream(inputStream);
 
             var reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
-            List<Lei> leiList = parseResponse(new BufferedReader(reader));
-            return leiList.stream();
+            return parseResponse(new BufferedReader(reader));
         } catch (InterruptedException e) {
             var logger = Logger.getLogger(LOGGER);
             logger.severe(e.getMessage());
@@ -171,7 +195,7 @@ public class LeiLookup {
             logger.severe(e.getMessage());
         }
 
-        return Stream.empty();
+        return Collections.emptyList();
     }
 
     @SuppressWarnings("java:S3776")

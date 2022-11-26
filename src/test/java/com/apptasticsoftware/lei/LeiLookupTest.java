@@ -3,8 +3,8 @@ package com.apptasticsoftware.lei;
 import org.junit.jupiter.api.Test;
 
 import java.time.ZonedDateTime;
-import java.util.Arrays;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -59,13 +59,15 @@ class LeiLookupTest {
     @Test
     void testLookupList() {
         LeiLookup leiLookup = LeiLookup.getInstance();
-        long count1 = leiLookup.getLei("5493001KJTIIGC8Y1R12", "4469000001AVO26P9X86", "029200067A7K6CH0H586", "029200067A7K6CH0H586")
-                              .count();
+        //var l = leiLookup.getLei("5493001KJTIIGC8Y1R12", "4469000001AVO26P9X86", "029200067A7K6CH0H586", "029200067A7K6CH0H586");
+
+        long count1 = leiLookup.getLei("5493001KJTIIGC8Y1R12", "4469000001AVO26P9X86", "029200067A7K6CH0H586", "029200067A7K6CH0H586", "AAA111")
+                               .size();
         assertEquals(4L, count1);
 
-        long count2 = leiLookup.getLei(Arrays.asList("5493001KJTIIGC8Y1R12", "4469000001AVO26P9X86", "029200067A7K6CH0H586", "029200067A7K6CH0H586"))
-                               .count();
-        assertEquals(4L, count2);
+        long count2 = leiLookup.getLei(Set.of("5493001KJTIIGC8Y1R12", "4469000001AVO26P9X86", "029200067A7K6CH0H586", "AAA111"))
+                               .size();
+        assertEquals(3L, count2);
     }
 
     @Test
@@ -87,8 +89,11 @@ class LeiLookupTest {
     @Test
     void testLookupFailed() {
         LeiLookup leiLookup = LeiLookup.getInstance();
-        Optional<Lei> lei = leiLookup.getLei("ABC123");
 
+        Optional<Lei> lei = leiLookup.getLei("ABC123");
+        assertFalse(lei.isPresent());
+
+        lei = leiLookup.getLei("ABC123");
         assertFalse(lei.isPresent());
     }
 }

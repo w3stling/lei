@@ -33,9 +33,9 @@ public final class LeiCodeValidator {
     }
 
     /**
-     * Validates if the formate of the LEI code is valid
+     * Validates if the format of the LEI code is valid
      * @param leiCode LEI code
-     * @return true if valid other wise false
+     * @return true if valid otherwise false
      */
     public static boolean isValid(String leiCode) {
         return leiCode != null &&
