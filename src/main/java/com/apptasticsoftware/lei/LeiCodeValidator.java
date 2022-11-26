@@ -40,9 +40,9 @@ public final class LeiCodeValidator {
     public static boolean isValid(String leiCode) {
         return leiCode != null &&
                 leiCode.length() == 20 &&
-                isAlphanumeric(leiCode.substring(0, 17)) &&
                 Character.isDigit(leiCode.charAt(18)) &&
                 Character.isDigit(leiCode.charAt(19)) &&
+                isAlphanumeric(leiCode.substring(0, 17)) &&
                 isChecksumValid(leiCode);
     }
 
