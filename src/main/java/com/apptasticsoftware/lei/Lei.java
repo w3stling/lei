@@ -26,6 +26,7 @@ package com.apptasticsoftware.lei;
 import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * ISO 17442 - Legal Entity Identifier (LEI).
@@ -139,6 +140,30 @@ public class Lei {
      */
     public Registration getRegistration() {
         return registration;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Lei lei = (Lei) o;
+        return Objects.equals(getLeiCode(), lei.getLeiCode()) &&
+               Objects.equals(getLegalName(), lei.getLegalName()) &&
+               getEntityStatus() == lei.getEntityStatus() &&
+               Objects.equals(getEntityLegalFormCode(), lei.getEntityLegalFormCode()) &&
+               Objects.equals(getLegalJurisdiction(), lei.getLegalJurisdiction()) &&
+               getEntityCategory() == lei.getEntityCategory() &&
+               Objects.equals(getLegalAddress(), lei.getLegalAddress()) &&
+               Objects.equals(getHeadquartersAddress(), lei.getHeadquartersAddress()) &&
+               Objects.equals(getRegistrationAuthority(), lei.getRegistrationAuthority()) &&
+               Objects.equals(getRegistration(), lei.getRegistration());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getLeiCode(), getLegalName(), getEntityStatus(), getEntityLegalFormCode(),
+                            getLegalJurisdiction(), getEntityCategory(), getLegalAddress(), getHeadquartersAddress(),
+                            getRegistrationAuthority(), getRegistration());
     }
 
     /**
@@ -336,6 +361,25 @@ public class Lei {
         public String getPostalCode() {
             return postalCode;
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Address address = (Address) o;
+            return Objects.equals(getFirstAddressLine(), address.getFirstAddressLine()) &&
+                   Objects.equals(getAdditionalAddressLine(), address.getAdditionalAddressLine()) &&
+                   Objects.equals(getCity(), address.getCity()) &&
+                   Objects.equals(getRegion(), address.getRegion()) &&
+                   Objects.equals(getCountry(), address.getCountry()) &&
+                   Objects.equals(getPostalCode(), address.getPostalCode());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(getFirstAddressLine(), getAdditionalAddressLine(), getCity(), getRegion(),
+                                getCountry(), getPostalCode());
+        }
     }
 
     /**
@@ -372,6 +416,20 @@ public class Lei {
             return registrationAuthorityEntityID;
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            RegistrationAuthority that = (RegistrationAuthority) o;
+            return Objects.equals(getRegistrationAuthorityID(), that.getRegistrationAuthorityID()) &&
+                   Objects.equals(getRegistrationAuthorityEntityID(), that.getRegistrationAuthorityEntityID());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(getRegistrationAuthorityID(),
+                                getRegistrationAuthorityEntityID());
+        }
     }
 
     /**
@@ -493,6 +551,28 @@ public class Lei {
          */
         public String getValidationAuthorityEntityID() {
             return validationAuthorityEntityID;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Registration that = (Registration) o;
+            return Objects.equals(getInitialRegistrationDate(), that.getInitialRegistrationDate()) &&
+                   Objects.equals(getLastUpdateDate(), that.getLastUpdateDate()) &&
+                   getRegistrationStatus() == that.getRegistrationStatus() &&
+                   Objects.equals(getNextRenewalDate(), that.getNextRenewalDate()) &&
+                   Objects.equals(getManagingLOU(), that.getManagingLOU()) &&
+                   getValidationSource() == that.getValidationSource() &&
+                   Objects.equals(getValidationAuthorityID(), that.getValidationAuthorityID()) &&
+                   Objects.equals(getValidationAuthorityEntityID(), that.getValidationAuthorityEntityID());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(getInitialRegistrationDate(), getLastUpdateDate(), getRegistrationStatus(),
+                                getNextRenewalDate(), getManagingLOU(), getValidationSource(),
+                                getValidationAuthorityID(), getValidationAuthorityEntityID());
         }
     }
 }
