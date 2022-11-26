@@ -3,7 +3,7 @@ package com.apptasticsoftware.lei;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Test;
 
-public class LeiTest {
+class LeiTest {
 
     @Test
     void leiSimpleEqualsContract() {
