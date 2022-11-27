@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":9,"i1":9,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10};
+var data = {"i0":9,"i1":9,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -171,20 +171,6 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>java.util.Optional&lt;<a href="Lei.html" title="class in com.apptasticsoftware.lei">Lei</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getLei(java.lang.String)">getLei</a></span>&#8203;(java.lang.String&nbsp;leiCode)</code></th>
-<td class="colLast">
-<div class="block">Get LEI entry by LEI code.</div>
-</td>
-</tr>
-<tr id="i3" class="rowColor">
-<td class="colFirst"><code>java.util.List&lt;<a href="Lei.html" title="class in com.apptasticsoftware.lei">Lei</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getLei(java.lang.String...)">getLei</a></span>&#8203;(java.lang.String...&nbsp;leiCodes)</code></th>
-<td class="colLast">
-<div class="block">Get LEI entries by LEI codes.</div>
-</td>
-</tr>
-<tr id="i4" class="altColor">
 <td class="colFirst"><code>protected java.util.List&lt;<a href="Lei.html" title="class in com.apptasticsoftware.lei">Lei</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getLei(java.lang.String,java.util.function.Function,java.util.function.Function,java.lang.String...)">getLei</a></span>&#8203;(java.lang.String&nbsp;url,
       java.util.function.Function&lt;<a href="Lei.html" title="class in com.apptasticsoftware.lei">Lei</a>,&#8203;java.lang.String&gt;&nbsp;cacheKey,
@@ -192,25 +178,46 @@ extends java.lang.Object</pre>
       java.lang.String...&nbsp;codes)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i5" class="rowColor">
-<td class="colFirst"><code>java.util.List&lt;<a href="Lei.html" title="class in com.apptasticsoftware.lei">Lei</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getLei(java.util.Set)">getLei</a></span>&#8203;(java.util.Set&lt;java.lang.String&gt;&nbsp;leiCode)</code></th>
-<td class="colLast">
-<div class="block">Get LEI entries by LEI codes.</div>
-</td>
-</tr>
-<tr id="i6" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>java.util.Optional&lt;<a href="Lei.html" title="class in com.apptasticsoftware.lei">Lei</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getLeiByBic(java.lang.String)">getLeiByBic</a></span>&#8203;(java.lang.String&nbsp;bicCode)</code></th>
 <td class="colLast">
 <div class="block">Get LEI entry by BIC code.</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>java.util.Optional&lt;<a href="Lei.html" title="class in com.apptasticsoftware.lei">Lei</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getLeiByIsin(java.lang.String)">getLeiByIsin</a></span>&#8203;(java.lang.String&nbsp;isinCode)</code></th>
 <td class="colLast">
 <div class="block">Get LEI entry by ISIN code.</div>
+</td>
+</tr>
+<tr id="i5" class="rowColor">
+<td class="colFirst"><code>java.util.List&lt;<a href="Lei.html" title="class in com.apptasticsoftware.lei">Lei</a>&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getLeiByLegalName(java.lang.String)">getLeiByLegalName</a></span>&#8203;(java.lang.String&nbsp;name)</code></th>
+<td class="colLast">
+<div class="block">Get LEI entry by name.</div>
+</td>
+</tr>
+<tr id="i6" class="altColor">
+<td class="colFirst"><code>java.util.Optional&lt;<a href="Lei.html" title="class in com.apptasticsoftware.lei">Lei</a>&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getLeiByLeiCode(java.lang.String)">getLeiByLeiCode</a></span>&#8203;(java.lang.String&nbsp;leiCode)</code></th>
+<td class="colLast">
+<div class="block">Get LEI entry by LEI code.</div>
+</td>
+</tr>
+<tr id="i7" class="rowColor">
+<td class="colFirst"><code>java.util.List&lt;<a href="Lei.html" title="class in com.apptasticsoftware.lei">Lei</a>&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getLeiByLeiCode(java.lang.String...)">getLeiByLeiCode</a></span>&#8203;(java.lang.String...&nbsp;leiCodes)</code></th>
+<td class="colLast">
+<div class="block">Get LEI entries by LEI codes.</div>
+</td>
+</tr>
+<tr id="i8" class="altColor">
+<td class="colFirst"><code>java.util.List&lt;<a href="Lei.html" title="class in com.apptasticsoftware.lei">Lei</a>&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getLeiByLeiCode(java.util.Set)">getLeiByLeiCode</a></span>&#8203;(java.util.Set&lt;java.lang.String&gt;&nbsp;leiCode)</code></th>
+<td class="colLast">
+<div class="block">Get LEI entries by LEI codes.</div>
 </td>
 </tr>
 </table>
@@ -269,13 +276,29 @@ extends java.lang.Object</pre>
 </dl>
 </li>
 </ul>
-<a id="getLei(java.lang.String)">
+<a id="getLeiByLegalName(java.lang.String)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getLei</h4>
-<pre class="methodSignature">public&nbsp;java.util.Optional&lt;<a href="Lei.html" title="class in com.apptasticsoftware.lei">Lei</a>&gt;&nbsp;getLei&#8203;(java.lang.String&nbsp;leiCode)</pre>
+<h4>getLeiByLegalName</h4>
+<pre class="methodSignature">public&nbsp;java.util.List&lt;<a href="Lei.html" title="class in com.apptasticsoftware.lei">Lei</a>&gt;&nbsp;getLeiByLegalName&#8203;(java.lang.String&nbsp;name)</pre>
+<div class="block">Get LEI entry by name.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>name</code> - - name of LEI</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>lei</dd>
+</dl>
+</li>
+</ul>
+<a id="getLeiByLeiCode(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getLeiByLeiCode</h4>
+<pre class="methodSignature">public&nbsp;java.util.Optional&lt;<a href="Lei.html" title="class in com.apptasticsoftware.lei">Lei</a>&gt;&nbsp;getLeiByLeiCode&#8203;(java.lang.String&nbsp;leiCode)</pre>
 <div class="block">Get LEI entry by LEI code.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -285,13 +308,13 @@ extends java.lang.Object</pre>
 </dl>
 </li>
 </ul>
-<a id="getLei(java.util.Set)">
+<a id="getLeiByLeiCode(java.util.Set)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getLei</h4>
-<pre class="methodSignature">public&nbsp;java.util.List&lt;<a href="Lei.html" title="class in com.apptasticsoftware.lei">Lei</a>&gt;&nbsp;getLei&#8203;(java.util.Set&lt;java.lang.String&gt;&nbsp;leiCode)</pre>
+<h4>getLeiByLeiCode</h4>
+<pre class="methodSignature">public&nbsp;java.util.List&lt;<a href="Lei.html" title="class in com.apptasticsoftware.lei">Lei</a>&gt;&nbsp;getLeiByLeiCode&#8203;(java.util.Set&lt;java.lang.String&gt;&nbsp;leiCode)</pre>
 <div class="block">Get LEI entries by LEI codes.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -301,13 +324,13 @@ extends java.lang.Object</pre>
 </dl>
 </li>
 </ul>
-<a id="getLei(java.lang.String...)">
+<a id="getLeiByLeiCode(java.lang.String...)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getLei</h4>
-<pre class="methodSignature">public&nbsp;java.util.List&lt;<a href="Lei.html" title="class in com.apptasticsoftware.lei">Lei</a>&gt;&nbsp;getLei&#8203;(java.lang.String...&nbsp;leiCodes)</pre>
+<h4>getLeiByLeiCode</h4>
+<pre class="methodSignature">public&nbsp;java.util.List&lt;<a href="Lei.html" title="class in com.apptasticsoftware.lei">Lei</a>&gt;&nbsp;getLeiByLeiCode&#8203;(java.lang.String...&nbsp;leiCodes)</pre>
 <div class="block">Get LEI entries by LEI codes.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
