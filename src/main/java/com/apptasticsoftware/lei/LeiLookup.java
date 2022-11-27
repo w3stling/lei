@@ -115,16 +115,6 @@ public class LeiLookup {
     }
 
     /**
-     * Get LEI entry by LEI code.
-     * @param leiCode - LEI code
-     * @return lei
-     */
-    @SuppressWarnings("java:S3878")
-    public Optional<Lei> getLeiByLeiCode(String leiCode) {
-        return getLeiByLeiCode(new String[] {leiCode}).stream().findFirst();
-    }
-
-    /**
      * Get LEI entries by LEI codes.
      * @param leiCode - List of LEI codes
      * @return List of LEI codes
@@ -139,7 +129,16 @@ public class LeiLookup {
      * @return List of LEI codes
      */
     public List<Lei> getLeiByLeiCode(String... leiCodes) {
-        return getLei(BASE_URL_LEI, Lei::getLeiCode, LeiCodeValidator::isValid, leiCodes);
+        return getLeiList(Lei::getLeiCode, LeiCodeValidator::isValid, leiCodes);
+    }
+
+    /**
+     * Get LEI entry by LEI code.
+     * @param leiCode - LEI code
+     * @return lei
+     */
+    public Optional<Lei> getLeiByLeiCode(String leiCode) {
+        return getLei(leiCode, BASE_URL_LEI, LeiCodeValidator::isValid);
     }
 
     /**
@@ -148,7 +147,7 @@ public class LeiLookup {
      * @return lei
      */
     public Optional<Lei> getLeiByIsin(String isinCode) {
-        return getLei(BASE_URL_ISIN, lei -> isinCode, IsinCodeValidator::isValid, isinCode).stream().findFirst();
+        return getLei(isinCode, BASE_URL_ISIN, IsinCodeValidator::isValid);
     }
 
     /**
@@ -157,10 +156,29 @@ public class LeiLookup {
      * @return lei
      */
     public Optional<Lei> getLeiByBic(String bicCode) {
-        return getLei(BASE_URL_BIC, lei -> bicCode, BicCodeValidator::isValid, bicCode).stream().findFirst();
+        return getLei(bicCode, BASE_URL_BIC, BicCodeValidator::isValid);
     }
 
-    protected List<Lei> getLei(String url, Function<Lei, String> cacheKey, Predicate<String> validator, String... codes) {
+    protected Optional<Lei> getLei(String code, String url, Predicate<String> validator) {
+        Lei lei = cache.get(code);
+        if (lei != null) {
+            return Optional.of(lei);
+        }
+
+        if (!validator.test(code) || searchMissCache.containsKey(code)) {
+            return Optional.empty();
+        }
+
+        Optional<Lei> searchResult = search(List.of(code), url, 1).getKey().stream().findFirst();
+        if (searchResult.isPresent()) {
+            put(code, searchResult.get());
+        } else {
+            put(code);
+        }
+        return searchResult;
+    }
+
+    protected List<Lei> getLeiList(Function<Lei, String> cacheKey, Predicate<String> validator, String... codes) {
         List<String> searchForCodes = Arrays.stream(codes)
                 .distinct()
                 .filter(validator)
@@ -170,7 +188,7 @@ public class LeiLookup {
 
         Set<String> notFound = new HashSet<>(searchForCodes);
 
-        search(searchForCodes, url, 1).getKey().forEach(lei -> {
+        search(searchForCodes, BASE_URL_LEI, 1).getKey().forEach(lei -> {
             notFound.remove(cacheKey.apply(lei));
             put(cacheKey.apply(lei), lei);
         });
