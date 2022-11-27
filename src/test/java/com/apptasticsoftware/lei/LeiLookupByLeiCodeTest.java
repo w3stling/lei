@@ -9,14 +9,14 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-class LeiLookupTest {
+class LeiLookupByLeiCodeTest {
 
 
     @Test
     @SuppressWarnings("java:S5961")
     void testLookup() {
         LeiLookup leiLookup = LeiLookup.getInstance();
-        Optional<Lei> lei = leiLookup.getLei("7LTWFZYICNSX8D621K86");
+        Optional<Lei> lei = leiLookup.getLeiByLeiCode("7LTWFZYICNSX8D621K86");
 
         assertTrue(lei.isPresent());
         assertEquals("7LTWFZYICNSX8D621K86", lei.get().getLeiCode());
@@ -61,11 +61,11 @@ class LeiLookupTest {
         LeiLookup leiLookup = LeiLookup.getInstance();
         //var l = leiLookup.getLei("5493001KJTIIGC8Y1R12", "4469000001AVO26P9X86", "029200067A7K6CH0H586", "029200067A7K6CH0H586");
 
-        long count1 = leiLookup.getLei("5493001KJTIIGC8Y1R12", "4469000001AVO26P9X86", "029200067A7K6CH0H586", "029200067A7K6CH0H586", "AAA111")
+        long count1 = leiLookup.getLeiByLeiCode("5493001KJTIIGC8Y1R12", "4469000001AVO26P9X86", "029200067A7K6CH0H586", "029200067A7K6CH0H586", "AAA111")
                                .size();
         assertEquals(4L, count1);
 
-        long count2 = leiLookup.getLei(Set.of("5493001KJTIIGC8Y1R12", "4469000001AVO26P9X86", "029200067A7K6CH0H586", "AAA111"))
+        long count2 = leiLookup.getLeiByLeiCode(Set.of("5493001KJTIIGC8Y1R12", "4469000001AVO26P9X86", "029200067A7K6CH0H586", "AAA111"))
                                .size();
         assertEquals(3L, count2);
     }
@@ -73,16 +73,16 @@ class LeiLookupTest {
     @Test
     void testLookupCache() {
         LeiLookup leiLookup = LeiLookup.getInstance(1, 10);
-        Optional<Lei> lei1 = leiLookup.getLei("5493001KJTIIGC8Y1R12");
+        Optional<Lei> lei1 = leiLookup.getLeiByLeiCode("5493001KJTIIGC8Y1R12");
         assertTrue(lei1.isPresent());
 
-        Optional<Lei> lei2 = leiLookup.getLei("4469000001AVO26P9X86");
+        Optional<Lei> lei2 = leiLookup.getLeiByLeiCode("4469000001AVO26P9X86");
         assertTrue(lei2.isPresent());
 
-        Optional<Lei> lei3 = leiLookup.getLei("029200067A7K6CH0H586");
+        Optional<Lei> lei3 = leiLookup.getLeiByLeiCode("029200067A7K6CH0H586");
         assertTrue(lei3.isPresent());
 
-        Optional<Lei> lei4 = leiLookup.getLei("029200067A7K6CH0H586");
+        Optional<Lei> lei4 = leiLookup.getLeiByLeiCode("029200067A7K6CH0H586");
         assertTrue(lei4.isPresent());
     }
 
@@ -90,10 +90,10 @@ class LeiLookupTest {
     void testLookupFailed() {
         LeiLookup leiLookup = LeiLookup.getInstance();
 
-        Optional<Lei> lei = leiLookup.getLei("ABC123");
+        Optional<Lei> lei = leiLookup.getLeiByLeiCode("ABC123");
         assertFalse(lei.isPresent());
 
-        lei = leiLookup.getLei("ABC123");
+        lei = leiLookup.getLeiByLeiCode("ABC123");
         assertFalse(lei.isPresent());
     }
 }
