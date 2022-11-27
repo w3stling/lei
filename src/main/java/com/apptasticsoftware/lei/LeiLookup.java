@@ -165,7 +165,7 @@ public class LeiLookup {
             return Optional.of(lei);
         }
 
-        if (!validator.test(code) || searchMissCache.containsKey(code)) {
+        if (searchMissCache.containsKey(code) || !validator.test(code)) {
             return Optional.empty();
         }
 
