@@ -54,17 +54,17 @@ LeiLookup lookup = LeiLookup.getInstance();
 Optional<Lei> lei = lookup.getLeiByBicCode("BUKBGB22XXX");
 ```
 
-Check LEI code format valid
+Check if LEI code format valid
 ```java
 boolean valid = LeiCodeValidator.isValid("W22LROWP2IHZNBB6K528");
 ```
 
-Check ISIN code format valid
+Check if ISIN code format valid
 ```java
 boolean valid = IsinCodeValidator.isValid("US0378331005");
 ```
 
-Check BIC code format valid
+Check if BIC code format valid
 ```java
 boolean valid = BicCodeValidator.isValid("DEUTDEFFXXX");
 ```
