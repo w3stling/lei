@@ -111,6 +111,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </a>
 <h2 class="title">B</h2>
 <dl>
+<dt><a href="com.apptasticsoftware.lei/com/apptasticsoftware/lei/BicCodeValidator.html" title="class in com.apptasticsoftware.lei"><span class="typeNameLink">BicCodeValidator</span></a> - Class in <a href="com.apptasticsoftware.lei/com/apptasticsoftware/lei/package-summary.html">com.apptasticsoftware.lei</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com.apptasticsoftware.lei/com/apptasticsoftware/lei/Lei.EntityCategory.html#BRANCH">BRANCH</a></span> - com.apptasticsoftware.lei.<a href="com.apptasticsoftware.lei/com/apptasticsoftware/lei/Lei.EntityCategory.html" title="enum in com.apptasticsoftware.lei">Lei.EntityCategory</a></dt>
 <dd>
 <div class="block">The legal entity is a branch of another legal entity.</div>
@@ -235,7 +237,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Get instance for doing LEI lookups.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="com.apptasticsoftware.lei/com/apptasticsoftware/lei/LeiLookup.html#getInstance(int)">getInstance(int)</a></span> - Static method in class com.apptasticsoftware.lei.<a href="com.apptasticsoftware.lei/com/apptasticsoftware/lei/LeiLookup.html" title="class in com.apptasticsoftware.lei">LeiLookup</a></dt>
+<dt><span class="memberNameLink"><a href="com.apptasticsoftware.lei/com/apptasticsoftware/lei/LeiLookup.html#getInstance(int,int)">getInstance(int, int)</a></span> - Static method in class com.apptasticsoftware.lei.<a href="com.apptasticsoftware.lei/com/apptasticsoftware/lei/LeiLookup.html" title="class in com.apptasticsoftware.lei">LeiLookup</a></dt>
 <dd>
 <div class="block">Get instance for doing LEI lookups.</div>
 </dd>
@@ -268,9 +270,19 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Get LEI entries by LEI codes.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com.apptasticsoftware.lei/com/apptasticsoftware/lei/LeiLookup.html#getLei(java.lang.String,java.util.function.Function,java.util.function.Function,java.lang.String...)">getLei(String, Function&lt;Lei, String&gt;, Function&lt;String, Boolean&gt;, String...)</a></span> - Method in class com.apptasticsoftware.lei.<a href="com.apptasticsoftware.lei/com/apptasticsoftware/lei/LeiLookup.html" title="class in com.apptasticsoftware.lei">LeiLookup</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com.apptasticsoftware.lei/com/apptasticsoftware/lei/LeiLookup.html#getLei(java.util.Set)">getLei(Set&lt;String&gt;)</a></span> - Method in class com.apptasticsoftware.lei.<a href="com.apptasticsoftware.lei/com/apptasticsoftware/lei/LeiLookup.html" title="class in com.apptasticsoftware.lei">LeiLookup</a></dt>
 <dd>
 <div class="block">Get LEI entries by LEI codes.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com.apptasticsoftware.lei/com/apptasticsoftware/lei/LeiLookup.html#getLeiByBic(java.lang.String)">getLeiByBic(String)</a></span> - Method in class com.apptasticsoftware.lei.<a href="com.apptasticsoftware.lei/com/apptasticsoftware/lei/LeiLookup.html" title="class in com.apptasticsoftware.lei">LeiLookup</a></dt>
+<dd>
+<div class="block">Get LEI entry by BIC code.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com.apptasticsoftware.lei/com/apptasticsoftware/lei/LeiLookup.html#getLeiByIsin(java.lang.String)">getLeiByIsin(String)</a></span> - Method in class com.apptasticsoftware.lei.<a href="com.apptasticsoftware.lei/com/apptasticsoftware/lei/LeiLookup.html" title="class in com.apptasticsoftware.lei">LeiLookup</a></dt>
+<dd>
+<div class="block">Get LEI entry by ISIN code.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com.apptasticsoftware.lei/com/apptasticsoftware/lei/Lei.html#getLeiCode()">getLeiCode()</a></span> - Method in class com.apptasticsoftware.lei.<a href="com.apptasticsoftware.lei/com/apptasticsoftware/lei/Lei.html" title="class in com.apptasticsoftware.lei">Lei</a></dt>
 <dd>
@@ -358,10 +370,22 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  operating, whether as a result of business closure, acquisition by or merger with another (or new) entity,
  or determination of illegitimacy.</div>
 </dd>
+<dt><a href="com.apptasticsoftware.lei/com/apptasticsoftware/lei/IsinCodeValidator.html" title="class in com.apptasticsoftware.lei"><span class="typeNameLink">IsinCodeValidator</span></a> - Class in <a href="com.apptasticsoftware.lei/com/apptasticsoftware/lei/package-summary.html">com.apptasticsoftware.lei</a></dt>
+<dd>
+<div class="block">Class for validating ISIN codes</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com.apptasticsoftware.lei/com/apptasticsoftware/lei/Lei.RegistrationStatus.html#ISSUED">ISSUED</a></span> - com.apptasticsoftware.lei.<a href="com.apptasticsoftware.lei/com/apptasticsoftware/lei/Lei.RegistrationStatus.html" title="enum in com.apptasticsoftware.lei">Lei.RegistrationStatus</a></dt>
 <dd>
 <div class="block">An LEI Registration that has been validated and issued, and which identifies an entity that was an operating
  legal entity as of the last update.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com.apptasticsoftware.lei/com/apptasticsoftware/lei/BicCodeValidator.html#isValid(java.lang.String)">isValid(String)</a></span> - Static method in class com.apptasticsoftware.lei.<a href="com.apptasticsoftware.lei/com/apptasticsoftware/lei/BicCodeValidator.html" title="class in com.apptasticsoftware.lei">BicCodeValidator</a></dt>
+<dd>
+<div class="block">Validates if the format of the BIC code is valid</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com.apptasticsoftware.lei/com/apptasticsoftware/lei/IsinCodeValidator.html#isValid(java.lang.String)">isValid(String)</a></span> - Static method in class com.apptasticsoftware.lei.<a href="com.apptasticsoftware.lei/com/apptasticsoftware/lei/IsinCodeValidator.html" title="class in com.apptasticsoftware.lei">IsinCodeValidator</a></dt>
+<dd>
+<div class="block">Validates if the format of the ISIN code is valid</div>
 </dd>
 <dt><span class="memberNameLink"><a href="com.apptasticsoftware.lei/com/apptasticsoftware/lei/LeiCodeValidator.html#isValid(java.lang.String)">isValid(String)</a></span> - Static method in class com.apptasticsoftware.lei.<a href="com.apptasticsoftware.lei/com/apptasticsoftware/lei/LeiCodeValidator.html" title="class in com.apptasticsoftware.lei">LeiCodeValidator</a></dt>
 <dd>
