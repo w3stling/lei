@@ -23,5 +23,6 @@ class LeiCodeValidatorTest {
         assertFalse(LeiCodeValidator.isValid("W22LROWP2IHZNBB6K52A"));
         assertFalse(LeiCodeValidator.isValid("W22LROWP2IHZNBB6K5A8"));
         assertFalse(LeiCodeValidator.isValid("W22LROWP2I2ZNBB6K528"));
+        assertFalse(LeiCodeValidator.isValid("254900q6R4N7GSNMZJ65"));
     }
 }
