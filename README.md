@@ -2,8 +2,8 @@ Legal Entity Identifier (LEI)
 =============================
 
 [![Build](https://github.com/w3stling/lei/actions/workflows/build.yml/badge.svg)](https://github.com/w3stling/lei/actions/workflows/build.yml)
-[![Download](https://img.shields.io/badge/download-2.0.1-brightgreen.svg)](https://search.maven.org/artifact/com.apptasticsoftware/lei/2.0.1/jar)
-[![Javadoc](https://img.shields.io/badge/javadoc-2.0.1-blue.svg)](https://w3stling.github.io/lei/javadoc/2.0.1)
+[![Download](https://img.shields.io/badge/download-3.0.0-brightgreen.svg)](https://search.maven.org/artifact/com.apptasticsoftware/lei/3.0.0/jar)
+[![Javadoc](https://img.shields.io/badge/javadoc-3.0.0-blue.svg)](https://w3stling.github.io/lei/javadoc/3.0.0)
 [![License](http://img.shields.io/:license-MIT-blue.svg?style=flat-round)](http://apptastic-software.mit-license.org)   
 [![CodeQL](https://github.com/w3stling/lei/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/w3stling/lei/actions/workflows/codeql-analysis.yml)
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=w3stling_lei&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=w3stling_lei)
@@ -36,7 +36,7 @@ LeiLookup lookup = LeiLookup.getInstance();
 Optional<Lei> lei = lookup.getLeiByLegalName("Apple");
 ```
 
-Search LEI by LEI code 
+Search LEI by LEI code
 ```java
 LeiLookup lookup = LeiLookup.getInstance();
 Optional<Lei> lei = lookup.getLeiByLeiCode("W22LROWP2IHZNBB6K528");
@@ -84,7 +84,7 @@ Add dependency declaration:
         <dependency>
             <groupId>com.apptasticsoftware</groupId>
             <artifactId>lei</artifactId>
-            <version>2.0.1</version>
+            <version>3.0.0</version>
         </dependency>
     </dependencies>
     ...
@@ -95,7 +95,7 @@ Add dependency declaration:
 Add dependency declaration:
 ```groovy
 dependencies {
-    implementation 'com.apptasticsoftware:lei:2.0.1'
+    implementation 'com.apptasticsoftware:lei:3.0.0'
 }
 ```
 
@@ -127,6 +127,6 @@ License
     SOFTWARE.
 
 
-[1]: https://search.maven.org/artifact/com.apptasticsoftware/lei/2.0.1/jar
+[1]: https://search.maven.org/artifact/com.apptasticsoftware/lei/3.0.0/jar
 [2]: https://maven.apache.org
 [3]: https://gradle.org
