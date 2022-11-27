@@ -72,7 +72,7 @@ class LeiLookupByLeiCodeTest {
 
     @Test
     void testLookupCache() {
-        LeiLookup leiLookup = LeiLookup.getInstance(1, 10);
+        LeiLookup leiLookup = LeiLookup.getInstance(5, 10);
         Optional<Lei> lei1 = leiLookup.getLeiByLeiCode("5493001KJTIIGC8Y1R12");
         assertTrue(lei1.isPresent());
 
