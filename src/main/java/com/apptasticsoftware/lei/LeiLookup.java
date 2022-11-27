@@ -202,14 +202,20 @@ public class LeiLookup {
     }
 
     private void put(String code, Lei lei) {
+        if (cache.containsKey(code)) {
+            return;
+        }
         cache.put(code, lei);
         if (cache.size() > cacheSize) {
             cache.pollLastEntry();
         }
     }
 
-    private void put(String lei) {
-        searchMissCache.put(lei, DEFAULT_VALUE);
+    private void put(String code) {
+        if (searchMissCache.containsKey(code)) {
+            return;
+        }
+        searchMissCache.put(code, DEFAULT_VALUE);
         if (searchMissCache.size() > searchMissCacheSize) {
             searchMissCache.pollLastEntry();
         }
