@@ -89,6 +89,7 @@ public final class IsinCodeValidator {
         return (isinCode.charAt(11) - 48) == calculateChecksum(isinCode);
     }
 
+    @SuppressWarnings("java:S3776")
     static int calculateChecksum(String isinCode) {
         int[] odd = new int[24];
         int[] even = new int[24];

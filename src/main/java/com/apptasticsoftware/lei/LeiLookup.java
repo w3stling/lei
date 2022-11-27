@@ -38,6 +38,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
@@ -50,7 +51,7 @@ import static java.util.function.Predicate.not;
 @SuppressWarnings("squid:S2629")
 public class LeiLookup {
     private static final String LOGGER = "com.apptastic.lei";
-    private final static Integer DEFAULT_VALUE = 5;
+    private static final Integer DEFAULT_VALUE = 5;
     private static final String BASE_URL_LEI = "https://api.gleif.org/api/v1/lei-records?filter[lei]=%s&page[number]=%d&page[size]=200";
     private static final String BASE_URL_ISIN = "https://api.gleif.org/api/v1/lei-records?filter[isin]=%s&page[number]=%d&page[size]=200";
     private static final String BASE_URL_BIC = "https://api.gleif.org/api/v1/lei-records?filter[bic]=%s&page[number]=%d&page[size]=200";
@@ -118,6 +119,7 @@ public class LeiLookup {
      * @param leiCode - LEI code
      * @return lei
      */
+    @SuppressWarnings("java:S3878")
     public Optional<Lei> getLeiByLeiCode(String leiCode) {
         return getLeiByLeiCode(new String[] {leiCode}).stream().findFirst();
     }
@@ -158,10 +160,10 @@ public class LeiLookup {
         return getLei(BASE_URL_BIC, lei -> bicCode, BicCodeValidator::isValid, bicCode).stream().findFirst();
     }
 
-    protected List<Lei> getLei(String url, Function<Lei, String> cacheKey, Function<String, Boolean> validator, String... codes) {
+    protected List<Lei> getLei(String url, Function<Lei, String> cacheKey, Predicate<String> validator, String... codes) {
         List<String> searchForCodes = Arrays.stream(codes)
                 .distinct()
-                .filter(validator::apply)
+                .filter(validator)
                 .filter(not(searchMissCache::containsKey))
                 .filter(not(cache::containsKey))
                 .collect(Collectors.toList());
