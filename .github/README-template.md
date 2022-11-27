@@ -30,17 +30,43 @@ This Java library makes it easy to lookup LEI information.
 
 Examples
 --------
-Get LEI
+Search LEI by LEI code
 ```java
 LeiLookup lookup = LeiLookup.getInstance();
-Optional<Lei> lei = lookup.getLei("W22LROWP2IHZNBB6K528");
+Optional<Lei> lei = lookup.getLeiByLegalName("Apple");
 ```
 
-Get a list of LEIs
+Search LEI by LEI code
 ```java
 LeiLookup lookup = LeiLookup.getInstance();
-List<Lei> lei = lookup.getLei("W22LROWP2IHZNBB6K528", "4PQUHN3JPFGFNF3BB653")
-                      .collect(Collectors.toList());
+Optional<Lei> lei = lookup.getLeiByLeiCode("W22LROWP2IHZNBB6K528");
+```
+
+Search LEI by ISIN code
+```java
+LeiLookup lookup = LeiLookup.getInstance();
+Optional<Lei> lei = lookup.getLeiByIsinCode("US0378331005");
+```
+
+Search LEI by BIC code
+```java
+LeiLookup lookup = LeiLookup.getInstance();
+Optional<Lei> lei = lookup.getLeiByBicCode("BUKBGB22XXX");
+```
+
+Check if the format of a LEI code valid
+```java
+boolean valid = LeiCodeValidator.isValid("W22LROWP2IHZNBB6K528");
+```
+
+Check if the format of an ISIN code valid
+```java
+boolean valid = IsinCodeValidator.isValid("US0378331005");
+```
+
+Check if the format of a BIC code valid
+```java
+boolean valid = BicCodeValidator.isValid("DEUTDEFFXXX");
 ```
 
 
