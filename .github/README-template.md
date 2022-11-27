@@ -30,7 +30,7 @@ This Java library makes it easy to lookup LEI information.
 
 Examples
 --------
-Search LEI by LEI code
+Search LEI by legal name
 ```java
 LeiLookup lookup = LeiLookup.getInstance();
 Optional<Lei> lei = lookup.getLeiByLegalName("Apple");
@@ -54,17 +54,17 @@ LeiLookup lookup = LeiLookup.getInstance();
 Optional<Lei> lei = lookup.getLeiByBicCode("BUKBGB22XXX");
 ```
 
-Check if the format of a LEI code valid
+Check LEI code format valid
 ```java
 boolean valid = LeiCodeValidator.isValid("W22LROWP2IHZNBB6K528");
 ```
 
-Check if the format of an ISIN code valid
+Check ISIN code format valid
 ```java
 boolean valid = IsinCodeValidator.isValid("US0378331005");
 ```
 
-Check if the format of a BIC code valid
+Check BIC code format valid
 ```java
 boolean valid = BicCodeValidator.isValid("DEUTDEFFXXX");
 ```
