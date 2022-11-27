@@ -42,18 +42,19 @@ public final class LeiCodeValidator {
                 leiCode.length() == 20 &&
                 Character.isDigit(leiCode.charAt(18)) &&
                 Character.isDigit(leiCode.charAt(19)) &&
-                isAlphanumeric(leiCode.substring(0, 17)) &&
+                isUppercaseAlphanumeric(leiCode.substring(0, 17)) &&
                 isChecksumValid(leiCode);
     }
 
-    private static boolean isAlphanumeric(final CharSequence cs) {
+    private static boolean isUppercaseAlphanumeric(final CharSequence cs) {
         if (cs == null || cs.length() == 0) {
             return false;
         }
 
         final int sz = cs.length();
         for (int i = 0; i < sz; i++) {
-            if (!Character.isLetterOrDigit(cs.charAt(i))) {
+            char c = cs.charAt(i);
+            if (!(Character.isUpperCase(c) || Character.isDigit(c))) {
                 return false;
             }
         }

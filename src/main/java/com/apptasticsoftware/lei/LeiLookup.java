@@ -37,6 +37,7 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.function.Function;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
@@ -49,37 +50,44 @@ import static java.util.function.Predicate.not;
 @SuppressWarnings("squid:S2629")
 public class LeiLookup {
     private static final String LOGGER = "com.apptastic.lei";
-    private static final String BASE_URL = "https://api.gleif.org/api/v1/lei-records?filter[lei]=";
+    private final static Integer DEFAULT_VALUE = 5;
+    private static final String BASE_URL_LEI = "https://api.gleif.org/api/v1/lei-records?filter[lei]=";
+    private static final String BASE_URL_ISIN = "https://api.gleif.org/api/v1/lei-records?filter[isin]=";
+    private static final String BASE_URL_BIC = "https://api.gleif.org/api/v1/lei-records?filter[bic]=";
     private static LeiLookup instance;
     private final int cacheSize;
+    private final int searchMissCacheSize;
     private final ConcurrentSkipListMap<String, Lei> cache;
-    private final ConcurrentSkipListMap<String, Integer> notFoundCache;
+    private final ConcurrentSkipListMap<String, Integer> searchMissCache;
+
 
     /**
      * Get instance for doing LEI lookups.
      * @return instance
      */
     public static LeiLookup getInstance() {
-        return getInstance(500000);
+        return getInstance(50000, 500000);
     }
 
     /**
      * Get instance for doing LEI lookups.
      * @param cacheSize - number of LEI to hold in cache
+     * @param searchMissCacheSize - number of search misses to cache to prevent searching for it again
      * @return instance
      */
-    public static LeiLookup getInstance(int cacheSize) {
+    public static LeiLookup getInstance(int cacheSize, int searchMissCacheSize) {
         if (instance != null && instance.cacheSize == cacheSize)
             return instance;
 
-        instance = new LeiLookup(cacheSize);
+        instance = new LeiLookup(cacheSize, searchMissCacheSize);
         return instance;
     }
 
-    private LeiLookup(int cacheSize) {
+    private LeiLookup(int cacheSize, int searchMissCacheSize) {
         this.cacheSize = cacheSize;
+        this.searchMissCacheSize = searchMissCacheSize;
         cache = new ConcurrentSkipListMap<>();
-        notFoundCache = new ConcurrentSkipListMap<>();
+        searchMissCache = new ConcurrentSkipListMap<>();
     }
 
     /**
@@ -88,25 +96,13 @@ public class LeiLookup {
      * @return lei
      */
     public Optional<Lei> getLei(String leiCode) {
-        if (!LeiCodeValidator.isValid(leiCode) || notFoundCache.containsKey(leiCode)) {
-            return Optional.empty();
-        }
-
-        Lei lei = cache.computeIfAbsent(leiCode, x -> search(x).stream().findFirst().orElse(null));
-
-        if (lei != null) {
-            put(lei);
-        } else {
-            put(leiCode);
-        }
-
-        return Optional.ofNullable(lei);
+        return getLei(new String[] {leiCode}).stream().findFirst();
     }
 
     /**
      * Get LEI entries by LEI codes.
      * @param leiCode - List of LEI codes
-     * @return stream of LEIs
+     * @return List of LEI codes
      */
     public List<Lei> getLei(Set<String> leiCode) {
         return getLei(leiCode.toArray(String[]::new));
@@ -115,50 +111,71 @@ public class LeiLookup {
     /**
      * Get LEI entries by LEI codes.
      * @param leiCodes - Array of LEI codes
-     * @return List of LEIs
+     * @return List of LEI codes
      */
     public List<Lei> getLei(String... leiCodes) {
-        String[] searchForLeiCodes = Arrays.stream(leiCodes)
-                                           .distinct()
-                                           .filter(LeiCodeValidator::isValid)
-                                           .filter(not(notFoundCache::containsKey))
-                                           .filter(not(cache::containsKey))
-                                           .toArray(String[]::new);
+        return getLei(BASE_URL_LEI, Lei::getLeiCode, LeiCodeValidator::isValid, leiCodes);
+    }
 
-        Set<String> notFound = new HashSet<>(Set.of(searchForLeiCodes));
+    /**
+     * Get LEI entry by ISIN code.
+     * @param isinCode - ISIN code
+     * @return lei
+     */
+    public Optional<Lei> getLeiByIsin(String isinCode) {
+        return getLei(BASE_URL_ISIN, lei -> isinCode, IsinCodeValidator::isValid, isinCode).stream().findFirst();
+    }
 
-        search(searchForLeiCodes).forEach(lei -> {
-            notFound.remove(lei.getLeiCode());
-            put(lei);
+    /**
+     * Get LEI entry by BIC code.
+     * @param bicCode - BIC code
+     * @return lei
+     */
+    public Optional<Lei> getLeiByBic(String bicCode) {
+        return getLei(BASE_URL_BIC, lei -> bicCode, BicCodeValidator::isValid, bicCode).stream().findFirst();
+    }
+
+    protected List<Lei> getLei(String url, Function<Lei, String> cacheKey, Function<String, Boolean> validator, String... codes) {
+        List<String> searchForCodes = Arrays.stream(codes)
+                .distinct()
+                .filter(validator::apply)
+                .filter(not(searchMissCache::containsKey))
+                .filter(not(cache::containsKey))
+                .collect(Collectors.toList());
+
+        Set<String> notFound = new HashSet<>(searchForCodes);
+
+        search(searchForCodes, url).forEach(lei -> {
+            notFound.remove(cacheKey.apply(lei));
+            put(cacheKey.apply(lei), lei);
         });
 
         notFound.forEach(this::put);
 
-        return Arrays.stream(leiCodes)
-                     .map(cache::get)
-                     .filter(Objects::nonNull)
-                     .collect(Collectors.toList());
+        return Arrays.stream(codes)
+                .map(cache::get)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
 
-    private void put(Lei lei) {
-        cache.put(lei.getLeiCode(), lei);
+    private void put(String code, Lei lei) {
+        cache.put(code, lei);
         if (cache.size() > cacheSize) {
             cache.pollLastEntry();
         }
     }
 
     private void put(String lei) {
-        notFoundCache.put(lei, null);
-        if (notFoundCache.size() > cacheSize) {
-            notFoundCache.pollLastEntry();
+        searchMissCache.put(lei, DEFAULT_VALUE);
+        if (searchMissCache.size() > searchMissCacheSize) {
+            searchMissCache.pollLastEntry();
         }
     }
 
-    private List<Lei> search(String... leiCode) {
-        String param = Arrays.stream(leiCode)
-                             .distinct()
-                             .filter(LeiCodeValidator::isValid)
-                             .collect(Collectors.joining(","));
+    private List<Lei> search(List<String> leiCodes, String url) {
+        String param = leiCodes.stream()
+                               .distinct()
+                               .collect(Collectors.joining(","));
 
         if (param.isEmpty()) {
             return Collections.emptyList();
@@ -173,7 +190,7 @@ public class LeiLookup {
                                           .followRedirects(HttpClient.Redirect.ALWAYS)
                                           .build();
 
-            HttpRequest request = HttpRequest.newBuilder(URI.create(BASE_URL + param))
+            HttpRequest request = HttpRequest.newBuilder(URI.create(url + param))
                                              .header("Accept-Encoding", "gzip")
                                              .GET()
                                              .build();
