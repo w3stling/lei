@@ -33,7 +33,7 @@ Examples
 Search LEI by legal name
 ```java
 LeiLookup lookup = LeiLookup.getInstance();
-Optional<Lei> lei = lookup.getLeiByLegalName("Apple");
+List<Lei> lei = lookup.getLeiByLegalName("Apple");
 ```
 
 Search LEI by LEI code
