@@ -131,6 +131,7 @@ public class LeiLookup {
      * @param leiCodes - Array of LEI codes
      * @return List of LEI codes
      */
+    @SuppressWarnings("java:S1133")
     @Deprecated(since="3.1.0", forRemoval=true)
     public List<Lei> getLeiByLeiCode(String... leiCodes) {
         return getLeiList(Lei::getLeiCode, LeiCodeValidator::isValid, List.of(leiCodes));
