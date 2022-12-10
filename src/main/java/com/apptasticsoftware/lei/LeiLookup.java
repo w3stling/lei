@@ -119,17 +119,21 @@ public class LeiLookup {
      * @param leiCode - List of LEI codes
      * @return List of LEI codes
      */
-    public List<Lei> getLeiByLeiCode(Set<String> leiCode) {
-        return getLeiByLeiCode(leiCode.toArray(String[]::new));
+    public List<Lei> getLeiByLeiCode(Collection<String> leiCode) {
+        return getLeiList(Lei::getLeiCode, LeiCodeValidator::isValid, leiCode);
     }
 
     /**
      * Get LEI entries by LEI codes.
+     * @deprecated
+     * This method is no longer acceptable to get LEI entries
+     * <p> Use {@link #getLeiByLeiCode(Collection<String>)} instead.
      * @param leiCodes - Array of LEI codes
      * @return List of LEI codes
      */
+    @Deprecated(since="3.1.0", forRemoval=true)
     public List<Lei> getLeiByLeiCode(String... leiCodes) {
-        return getLeiList(Lei::getLeiCode, LeiCodeValidator::isValid, leiCodes);
+        return getLeiList(Lei::getLeiCode, LeiCodeValidator::isValid, List.of(leiCodes));
     }
 
     /**
@@ -178,13 +182,13 @@ public class LeiLookup {
         return searchResult;
     }
 
-    protected List<Lei> getLeiList(Function<Lei, String> cacheKey, Predicate<String> validator, String... codes) {
-        List<String> searchForCodes = Arrays.stream(codes)
-                .distinct()
-                .filter(validator)
-                .filter(not(searchMissCache::containsKey))
-                .filter(not(cache::containsKey))
-                .collect(Collectors.toList());
+    protected List<Lei> getLeiList(Function<Lei, String> cacheKey, Predicate<String> validator, Collection<String> codes) {
+        List<String> searchForCodes = codes.stream()
+                                           .distinct()
+                                           .filter(validator)
+                                           .filter(not(searchMissCache::containsKey))
+                                           .filter(not(cache::containsKey))
+                                           .collect(Collectors.toList());
 
         Set<String> notFound = new HashSet<>(searchForCodes);
 
@@ -195,10 +199,10 @@ public class LeiLookup {
 
         notFound.forEach(this::put);
 
-        return Arrays.stream(codes)
-                .map(cache::get)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
+        return codes.stream()
+                    .map(cache::get)
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
     }
 
     private void put(String code, Lei lei) {
