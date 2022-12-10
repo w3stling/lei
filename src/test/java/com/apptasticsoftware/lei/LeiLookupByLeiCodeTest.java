@@ -60,8 +60,6 @@ class LeiLookupByLeiCodeTest {
     @Test
     void testLookupList() {
         LeiLookup leiLookup = LeiLookup.getInstance();
-        //var l = leiLookup.getLei("5493001KJTIIGC8Y1R12", "4469000001AVO26P9X86", "029200067A7K6CH0H586", "029200067A7K6CH0H586");
-
         long count1 = leiLookup.getLeiByLeiCode(List.of("5493001KJTIIGC8Y1R12", "4469000001AVO26P9X86", "029200067A7K6CH0H586", "029200067A7K6CH0H586", "AAA111"))
                                .size();
         assertEquals(4L, count1);
