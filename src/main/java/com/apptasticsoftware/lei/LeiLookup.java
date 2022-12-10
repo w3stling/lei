@@ -116,18 +116,18 @@ public class LeiLookup {
 
     /**
      * Get LEI entries by LEI codes.
-     * @param leiCode - List of LEI codes
+     * @param leiCodes - List of LEI codes
      * @return List of LEI codes
      */
-    public List<Lei> getLeiByLeiCode(Collection<String> leiCode) {
-        return getLeiList(Lei::getLeiCode, LeiCodeValidator::isValid, leiCode);
+    public List<Lei> getLeiByLeiCode(Collection<String> leiCodes) {
+        return getLeiList(Lei::getLeiCode, LeiCodeValidator::isValid, leiCodes);
     }
 
     /**
      * Get LEI entries by LEI codes.
      * @deprecated
      * This method is no longer acceptable to get LEI entries
-     * <p> Use {@link #getLeiByLeiCode(Collection<String>)} instead.
+     * <p> Use {@link #getLeiByLeiCode(Collection)} instead.
      * @param leiCodes - Array of LEI codes
      * @return List of LEI codes
      */
