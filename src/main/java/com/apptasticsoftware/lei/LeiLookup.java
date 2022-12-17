@@ -50,12 +50,13 @@ import static java.util.function.Predicate.not;
  */
 @SuppressWarnings("squid:S2629")
 public class LeiLookup {
-    private static final String LOGGER = "com.apptastic.lei";
+    private static final String LOGGER = "com.apptasticsoftware.lei";
     private static final Integer DEFAULT_VALUE = 5;
     private static final String BASE_URL_LEI = "https://api.gleif.org/api/v1/lei-records?filter[lei]=%s&page[number]=%d&page[size]=200";
     private static final String BASE_URL_ISIN = "https://api.gleif.org/api/v1/lei-records?filter[isin]=%s&page[number]=%d&page[size]=200";
     private static final String BASE_URL_BIC = "https://api.gleif.org/api/v1/lei-records?filter[bic]=%s&page[number]=%d&page[size]=200";
     private static final String BASE_URL_NAME = "https://api.gleif.org/api/v1/lei-records?filter[entity.legalName]=%s&page[number]=%d&page[size]=200";
+    private final IsinLookup isinLookup;
     private static LeiLookup instance;
     private final int cacheSize;
     private final int searchMissCacheSize;
@@ -90,6 +91,7 @@ public class LeiLookup {
         this.searchMissCacheSize = searchMissCacheSize;
         cache = new ConcurrentSkipListMap<>();
         searchMissCache = new ConcurrentSkipListMap<>();
+        isinLookup = new IsinLookup();
     }
 
     /**
@@ -147,12 +149,12 @@ public class LeiLookup {
     }
 
     /**
-     * Get LEI entry by ISIN code.
-     * @param isinCode - ISIN code
+     * Get LEI entry by ISIN number.
+     * @param isin - ISIN number
      * @return lei
      */
-    public Optional<Lei> getLeiByIsin(String isinCode) {
-        return getLei(isinCode, BASE_URL_ISIN, IsinCodeValidator::isValid);
+    public Optional<Lei> getLeiByIsin(String isin) {
+        return getLei(isin, BASE_URL_ISIN, IsinCodeValidator::isValid);
     }
 
     /**
@@ -164,7 +166,31 @@ public class LeiLookup {
         return getLei(bicCode, BASE_URL_BIC, BicCodeValidator::isValid);
     }
 
+    /**
+     * Get LEI entry by CUSIP.
+     * @param cusip - CUSIP
+     * @return lei
+     */
+    public Optional<Lei> getLeiByCusip(String cusip) {
+        var isinNumber = isinLookup.getIsinByCusip(cusip);
+        return getLei(isinNumber.orElse(null), BASE_URL_ISIN, IsinCodeValidator::isValid);
+    }
+
+    /**
+     * Get LEI entry by SEDOL.
+     * @param sedol - SEDOL
+     * @return lei
+     */
+    public Optional<Lei> getLeiBySedol(String sedol) {
+        var isinNumber = isinLookup.getIsinBySedol(sedol);
+        return getLei(isinNumber.orElse(null), BASE_URL_ISIN, IsinCodeValidator::isValid);
+    }
+
     protected Optional<Lei> getLei(String code, String url, Predicate<String> validator) {
+        if (code == null) {
+            return Optional.empty();
+        }
+
         Lei lei = cache.get(code);
         if (lei != null) {
             return Optional.of(lei);
