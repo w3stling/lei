@@ -33,5 +33,8 @@ class SedolValidatorTest {
     void invalidSedolCode() {
         assertFalse(SedolValidator.isValid("026349"));
         assertFalse(SedolValidator.isValid("02634941"));
+        assertFalse(SedolValidator.isValid("b000009"));
+        assertFalse(SedolValidator.isValid(""));
+        assertFalse(SedolValidator.isValid(null));
     }
 }

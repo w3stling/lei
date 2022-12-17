@@ -22,5 +22,8 @@ class CusipValidatorTest {
         assertFalse(CusipValidator.isValid("03783310"));
         assertFalse(CusipValidator.isValid("68389X10A"));
         assertFalse(CusipValidator.isValid("38259Q508"));
+        assertFalse(CusipValidator.isValid("17275r102"));
+        assertFalse(CusipValidator.isValid(""));
+        assertFalse(CusipValidator.isValid(null));
     }
 }

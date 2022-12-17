@@ -24,10 +24,6 @@ public final class SedolValidator {
     }
 
     private static boolean isUppercaseAlphanumeric(final CharSequence cs) {
-        if (cs == null || cs.length() == 0) {
-            return false;
-        }
-
         final int sz = cs.length();
         for (int i = 0; i < sz; i++) {
             char c = cs.charAt(i);

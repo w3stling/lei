@@ -2,6 +2,7 @@ package com.apptasticsoftware.lei;
 
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class IsinLookupTest {
@@ -24,35 +25,41 @@ class IsinLookupTest {
     void lookupByCusip() {
         assertTrue(lookup.getIsinByCusip("931142103").isPresent());
         assertTrue(lookup.getIsinByCusip("931142103").isPresent());
+        assertFalse(lookup.getIsinByCusip("").isPresent());
     }
 
     @Test
     void lookupByCusipMethod1() {
         assertTrue(lookup1.getIsinByCusip("931142103").isPresent());
         assertTrue(lookup1.getIsinByCusip("931142103").isPresent());
+        assertFalse(lookup.getIsinByCusip("").isPresent());
     }
 
     @Test
     void lookupByCusipMethod2() {
         assertTrue(lookup2.getIsinByCusip("931142103").isPresent());
         assertTrue(lookup2.getIsinByCusip("931142103").isPresent());
+        assertFalse(lookup.getIsinByCusip("").isPresent());
     }
 
     @Test
     void lookupBySedol() {
         assertTrue(lookup.getIsinBySedol("0884709").isPresent());
         assertTrue(lookup.getIsinBySedol("0884709").isPresent());
+        assertFalse(lookup.getIsinBySedol("").isPresent());
     }
 
     @Test
     void lookupBySedolMethod1() {
         assertTrue(lookup1.getIsinBySedol("0884709").isPresent());
         assertTrue(lookup1.getIsinBySedol("0884709").isPresent());
+        assertFalse(lookup.getIsinBySedol("").isPresent());
     }
 
     @Test
     void lookupBySedolMethod2() {
         assertTrue(lookup2.getIsinBySedol("0884709").isPresent());
         assertTrue(lookup2.getIsinBySedol("0884709").isPresent());
+        assertFalse(lookup.getIsinBySedol("").isPresent());
     }
 }
