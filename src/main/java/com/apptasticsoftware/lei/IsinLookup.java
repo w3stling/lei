@@ -107,6 +107,7 @@ public class IsinLookup {
         }
 
         var referer = CUSIP_URL.equals(url) ? "https://www.isindb.com/convert-cusip-to-isin/" : "https://www.isindb.com/convert-sedol-to-isin/";
+        String isin = null;
 
         try {
             var request = HttpRequest.newBuilder()
@@ -139,19 +140,8 @@ public class IsinLookup {
             }
 
             var text = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
-            var index = text.indexOf("<strong>");
-            if (index != -1) {
-                var isin = text.substring(index + 8, index + 20);
-                cacheResult(data, isin);
-                return isin;
-            }
-
-            index = text.indexOf("data-clipboard-text=\"");
-            if (index != -1) {
-                var isin = text.substring(index + 21, index + 33);
-                cacheResult(data, isin);
-                return isin;
-            }
+            isin = getIsin(text);
+            cacheResult(data, isin);
         } catch (InterruptedException e) {
             var logger = Logger.getLogger(LOGGER);
             logger.severe(e.getMessage());
@@ -161,7 +151,7 @@ public class IsinLookup {
             logger.severe(e.getMessage());
         }
 
-        return null;
+        return isin;
     }
 
     String sendRequest2(String url, String data) {
@@ -171,6 +161,7 @@ public class IsinLookup {
         }
 
         var referer = CUSIP_URL.equals(url) ? "https://www.isindb.com/convert-cusip-to-isin/" : "https://www.isindb.com/convert-sedol-to-isin/";
+        String isin = null;
 
         try {
             Connection.Response loginForm = Jsoup.connect(referer)
@@ -198,29 +189,42 @@ public class IsinLookup {
 
             var document = response.parse();
             var text = document.body().html();
-            var index = text.indexOf("<strong>");
-            if (index != -1) {
-                var isin = text.substring(index + 8, index + 20);
-                cacheResult(data, isin);
-                return isin;
-            }
-
-            index = text.indexOf("data-clipboard-text=\"");
-            if (index != -1) {
-                var isin = text.substring(index + 21, index + 33);
-                cacheResult(data, isin);
-                return isin;
-            }
+            isin = getIsin(text);
+            cacheResult(data, isin);
         } catch (Exception e) {
             var logger = Logger.getLogger(LOGGER);
             logger.severe(e.getMessage());
         }
 
+        return isin;
+    }
+
+    private String getIsin(String text) {
+        var isin = parseIsin1(text);
+        if (isin == null) {
+            isin = parseIsin2(text);
+        }
+        return isin;
+    }
+
+    String parseIsin1(String text) {
+        var index = text.indexOf("<strong>");
+        if (index != -1) {
+            return text.substring(index + 8, index + 20);
+        }
+        return null;
+    }
+
+    String parseIsin2(String text) {
+        int index = text.indexOf("data-clipboard-text=\"");
+        if (index != -1) {
+            return text.substring(index + 21, index + 33);
+        }
         return null;
     }
 
     private void cacheResult(String key, String value) {
-        if (cache.containsKey(key)) {
+        if (value == null || cache.containsKey(key)) {
             return;
         }
         cache.put(key, value);
