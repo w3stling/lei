@@ -59,22 +59,34 @@ public class IsinLookup {
             return Optional.empty();
         }
 
-        return sendRequestFunctions.stream()
+        var isin = pullCacheResult(cusip);
+        if (isin != null) {
+            return Optional.of(isin);
+        }
+
+        isin = sendRequestFunctions.stream()
                 .map(f -> {
-                    var isin = f.apply(CUSIP_URL, "cusip=US" + cusip);
-                    if (isin != null) {
-                        return isin;
+                    var isinNumber = f.apply(CUSIP_URL, "cusip=US" + cusip);
+                    if (isinNumber != null) {
+                        return isinNumber;
                     }
 
-                    isin = f.apply(CUSIP_URL, "cusip=CA" + cusip);
-                    if (isin != null) {
-                        return isin;
+                    isinNumber = f.apply(CUSIP_URL, "cusip=CA" + cusip);
+                    if (isinNumber != null) {
+                        return isinNumber;
                     }
 
                     return f.apply(CUSIP_URL, "cusip=BM" + cusip);
                 })
                 .filter(Objects::nonNull)
-                .findFirst();
+                .findFirst()
+                .orElse(null);
+
+        putCacheResult(cusip, isin);
+        if (isin != null && isin.isEmpty()) {
+            isin = null;
+        }
+        return Optional.ofNullable(isin);
     }
 
     /**
@@ -87,25 +99,32 @@ public class IsinLookup {
             return Optional.empty();
         }
 
-        return sendRequestFunctions.stream()
+        var isin = pullCacheResult(sedol);
+        if (isin != null) {
+            return Optional.of(isin);
+        }
+
+        isin = sendRequestFunctions.stream()
                 .map(f -> {
-                        String isin = f.apply(SEDOL_URL, "sedol=GB" + sedol);
-                        if (isin != null) {
-                          return isin;
+                        var isinNumber = f.apply(SEDOL_URL, "sedol=GB" + sedol);
+                        if (isinNumber != null) {
+                          return isinNumber;
                         }
 
                         return f.apply(SEDOL_URL, "sedol=IE" + sedol);
                     })
                 .filter(Objects::nonNull)
-                .findFirst();
+                .findFirst()
+                .orElse(null);
+
+        putCacheResult(sedol, isin);
+        if (isin != null && isin.isEmpty()) {
+            isin = null;
+        }
+        return Optional.ofNullable(isin);
     }
 
     String sendRequest1(String url, String data) {
-        var res = cache.get(data);
-        if (res != null) {
-            return res;
-        }
-
         var referer = CUSIP_URL.equals(url) ? "https://www.isindb.com/convert-cusip-to-isin/" : "https://www.isindb.com/convert-sedol-to-isin/";
         String isin = null;
 
@@ -141,7 +160,6 @@ public class IsinLookup {
 
             var text = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
             isin = getIsin(text);
-            cacheResult(data, isin);
         } catch (InterruptedException e) {
             var logger = Logger.getLogger(LOGGER);
             logger.severe(e.getMessage());
@@ -155,11 +173,6 @@ public class IsinLookup {
     }
 
     String sendRequest2(String url, String data) {
-        var res = cache.get(data);
-        if (res != null) {
-            return res;
-        }
-
         var referer = CUSIP_URL.equals(url) ? "https://www.isindb.com/convert-cusip-to-isin/" : "https://www.isindb.com/convert-sedol-to-isin/";
         String isin = null;
 
@@ -190,7 +203,6 @@ public class IsinLookup {
             var document = response.parse();
             var text = document.body().html();
             isin = getIsin(text);
-            cacheResult(data, isin);
         } catch (Exception e) {
             var logger = Logger.getLogger(LOGGER);
             logger.severe(e.getMessage());
@@ -200,10 +212,19 @@ public class IsinLookup {
     }
 
     private String getIsin(String text) {
+        if (text.toLowerCase().contains("add isin to database")) {
+            return "";
+        }
+
         var isin = parseIsin1(text);
         if (isin == null) {
             isin = parseIsin2(text);
         }
+
+        if (isin != null && !IsinCodeValidator.isValid(isin)) {
+            return "";
+        }
+
         return isin;
     }
 
@@ -223,9 +244,19 @@ public class IsinLookup {
         return null;
     }
 
-    private void cacheResult(String key, String value) {
-        if (value == null || cache.containsKey(key)) {
+    private String pullCacheResult(String key) {
+        var value = cache.get(key);
+        if (value != null && value.isEmpty()) {
+            value = null;
+        }
+        return value;
+    }
+    private void putCacheResult(String key, String value) {
+        if (cache.containsKey(key)) {
             return;
+        }
+        if (value == null) {
+            value = "";
         }
         cache.put(key, value);
         if (cache.size() > cacheSize) {

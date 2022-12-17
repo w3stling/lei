@@ -81,6 +81,7 @@ class IsinLookupTest {
         assertTrue(lookup.getIsinByCusip("931142103").isPresent());
         assertTrue(lookup.getIsinByCusip("931142103").isPresent());
         assertFalse(lookup.getIsinByCusip("").isPresent());
+        assertFalse(lookup.getIsinByCusip("0@7833105").isPresent());
     }
 
     @Test
