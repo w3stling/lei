@@ -14,6 +14,11 @@ class CusipValidatorTest {
         assertTrue(CusipValidator.isValid("38259P508"));
         assertTrue(CusipValidator.isValid("594918104"));
         assertTrue(CusipValidator.isValid("68389X105"));
+
+        // Dummy CUSIP
+        assertTrue(CusipValidator.isValid("0*7833107"));
+        assertTrue(CusipValidator.isValid("0@7833105"));
+        assertTrue(CusipValidator.isValid("0#7833103"));
     }
 
     @Test

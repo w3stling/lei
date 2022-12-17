@@ -23,7 +23,7 @@ public final class CusipValidator {
         final int sz = cs.length();
         for (int i = 0; i < sz; i++) {
             char c = cs.charAt(i);
-            if (!(Character.isUpperCase(c) || Character.isDigit(c))) {
+            if (!(Character.isUpperCase(c) || Character.isDigit(c) || c == '*' || c == '@' || c == '#')) {
                 return false;
             }
         }
