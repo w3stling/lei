@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class IsinLookupTest {
+class IsinLookupTest {
     private static final IsinLookup lookup = new IsinLookup();
 
     private static final IsinLookup lookup1 = new IsinLookup() {

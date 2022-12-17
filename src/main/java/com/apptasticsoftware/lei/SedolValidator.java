@@ -24,9 +24,6 @@ public final class SedolValidator {
     }
 
     private static boolean isUppercaseAlphanumeric(final CharSequence cs) {
-        // 	    if (char6.search(/^[0-9BCDFGHJKLMNPQRSTVWXYZ]{6}$/) == -1){
-        //	        throw "Invalid SEDOL number '" + char6 + "'";
-        //	    }
         if (cs == null || cs.length() == 0) {
             return false;
         }
