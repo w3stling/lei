@@ -28,7 +28,7 @@ Simply put, the publicly available LEI data pool can be regarded as a global dir
 
 This Java library makes it easy to lookup LEI information.
 
-Examples
+Lookup examples
 --------
 Search LEI by legal name
 ```java
@@ -54,19 +54,44 @@ LeiLookup lookup = LeiLookup.getInstance();
 Optional<Lei> lei = lookup.getLeiByBicCode("BUKBGB22XXX");
 ```
 
-Check if LEI code format valid
+Search LEI by CUSIP
+```java
+LeiLookup lookup = LeiLookup.getInstance();
+Optional<Lei> lei = lookup.getLeiByCusip("931142103");
+```
+
+Search LEI by SEDOL
+```java
+LeiLookup lookup = LeiLookup.getInstance();
+Optional<Lei> lei = lookup.getLeiBySedol("0884709");
+```
+
+Validation examples
+--------
+
+Check if LEI code format is valid
 ```java
 boolean valid = LeiCodeValidator.isValid("W22LROWP2IHZNBB6K528");
 ```
 
-Check if ISIN code format valid
+Check if ISIN code format is valid
 ```java
 boolean valid = IsinCodeValidator.isValid("US0378331005");
 ```
 
-Check if BIC code format valid
+Check if BIC code format is valid
 ```java
 boolean valid = BicCodeValidator.isValid("DEUTDEFFXXX");
+```
+
+Check if CUSIP format is valid
+```java
+boolean valid = CusipValidator.isValid("931142103");
+```
+
+Check if SEDOL format is valid
+```java
+boolean valid = SedolValidator.isValid("0884709");
 ```
 
 
