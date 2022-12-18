@@ -38,7 +38,7 @@ public final class CusipValidator {
     static int calculateCheckDigit(String cusip) {
         int sum = 0;
 
-        for (int p = 1; p < cusip.length(); ++p) {
+        for (int p = 1; p <= cusip.length(); ++p) {
             int value = 0;
             int c = cusip.codePointAt(p-1);
             if (Character.isDigit(c)) {
