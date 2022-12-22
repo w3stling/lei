@@ -675,7 +675,7 @@ public class LeiLookup {
 
     private PendingRequest getPendingRequest(String request) {
         PendingRequest newPendingRequest = new PendingRequest(request);
-        PendingRequest pendingRequest = pendingRequests.computeIfAbsent(request, (k) -> newPendingRequest);
+        PendingRequest pendingRequest = pendingRequests.computeIfAbsent(request, k -> newPendingRequest);
 
         if (newPendingRequest != pendingRequest) {
             return newPendingRequest;
