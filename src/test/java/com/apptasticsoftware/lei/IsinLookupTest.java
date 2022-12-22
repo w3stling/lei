@@ -2,6 +2,8 @@ package com.apptasticsoftware.lei;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -85,6 +87,15 @@ class IsinLookupTest {
     }
 
     @Test
+    void pendingRequestLookupByCusip() {
+        var cusipList = List.of("931142103", "931142103", "931142103", "931142103", "931142103", "931142103");
+
+        IsinLookup lookup = new IsinLookup(35);
+
+        cusipList.stream().parallel().forEach(cusip -> assertTrue(lookup.getIsinByCusip(cusip).isPresent()));
+    }
+
+    @Test
     void lookupByCusipMethod1() {
         assertTrue(lookup1.getIsinByCusip("931142103").isPresent());
         assertTrue(lookup1.getIsinByCusip("931142103").isPresent());
@@ -131,6 +142,15 @@ class IsinLookupTest {
         assertTrue(lookup.getIsinBySedol("0884709").isPresent());
         assertTrue(lookup.getIsinBySedol("0884709").isPresent());
         assertFalse(lookup.getIsinBySedol("").isPresent());
+    }
+
+    @Test
+    void pendingRequestLookupBySedol() {
+        var sedolList = List.of("0884709", "0884709", "0884709", "0884709", "0884709", "0884709");
+
+        IsinLookup lookup = new IsinLookup(36);
+
+        sedolList.stream().parallel().forEach(sedol -> assertTrue(lookup.getIsinBySedol(sedol).isPresent()));
     }
 
     @Test

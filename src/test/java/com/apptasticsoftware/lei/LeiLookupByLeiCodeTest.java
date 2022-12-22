@@ -95,4 +95,18 @@ class LeiLookupByLeiCodeTest {
         lei = leiLookup.getLeiByLeiCode("ABC123");
         assertFalse(lei.isPresent());
     }
+
+    @Test
+    void testPendingRequest() {
+        var leiList = List.of("7LTWFZYICNSX8D621K86", "7LTWFZYICNSX8D621K86", "7LTWFZYICNSX8D621K86",
+                "7LTWFZYICNSX8D621K86", "7LTWFZYICNSX8D621K86", "7LTWFZYICNSX8D621K86", "7LTWFZYICNSX8D621K86");
+
+        LeiLookup leiLookup = LeiLookup.getInstance(48, 48);
+
+        leiList.stream().parallel().forEach(lieCode -> {
+                    Optional<Lei> lei = leiLookup.getLeiByLeiCode(lieCode);
+                    assertTrue(lei.isPresent());
+                }
+        );
+    }
 }

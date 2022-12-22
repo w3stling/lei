@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.concurrent.*;
 import java.util.function.BiFunction;
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
@@ -30,6 +30,7 @@ public class IsinLookup {
     private final int cacheSize;
     private final ConcurrentSkipListMap<String, String> cache;
     private final List<BiFunction<String, String, String>> sendRequestFunctions;
+    private final ConcurrentHashMap<String, PendingRequest> pendingRequests = new ConcurrentHashMap<>();
 
 
     /**
@@ -64,6 +65,13 @@ public class IsinLookup {
             return Optional.of(isin);
         }
 
+        var pendingRequest = getPendingRequest(cusip);
+        if (pendingRequest != null) {
+            return Optional.ofNullable(getPendingResult(cusip));
+        }
+
+        pendingRequest = pendingRequests.get(cusip);
+
         isin = sendRequestFunctions.stream()
                 .map(f -> {
                     var isinNumber = f.apply(CUSIP_URL, "cusip=US" + cusip);
@@ -83,6 +91,8 @@ public class IsinLookup {
                 .orElse(null);
 
         putCacheResult(cusip, isin);
+        pendingRequest.done();
+        pendingRequests.remove(cusip);
         if (isin != null && isin.isEmpty()) {
             isin = null;
         }
@@ -104,6 +114,13 @@ public class IsinLookup {
             return Optional.of(isin);
         }
 
+        var pendingRequest = getPendingRequest(sedol);
+        if (pendingRequest != null) {
+            return Optional.ofNullable(getPendingResult(sedol));
+        }
+
+        pendingRequest = pendingRequests.get(sedol);
+
         isin = sendRequestFunctions.stream()
                 .map(f -> {
                         var isinNumber = f.apply(SEDOL_URL, "sedol=GB" + sedol);
@@ -118,6 +135,8 @@ public class IsinLookup {
                 .orElse(null);
 
         putCacheResult(sedol, isin);
+        pendingRequest.done();
+        pendingRequests.remove(sedol);
         if (isin != null && isin.isEmpty()) {
             isin = null;
         }
@@ -261,6 +280,76 @@ public class IsinLookup {
         cache.put(key, value);
         if (cache.size() > cacheSize) {
             cache.pollLastEntry();
+        }
+    }
+
+    private PendingRequest getPendingRequest(String request) {
+        PendingRequest newPendingRequest = new PendingRequest(request);
+        PendingRequest pendingRequest = pendingRequests.computeIfAbsent(request, k -> newPendingRequest);
+
+        if (newPendingRequest != pendingRequest) {
+            return newPendingRequest;
+        }
+
+        return null;
+    }
+
+    private String getPendingResult(String request) {
+        var pendingRequest = pendingRequests.get(request);
+        if (pendingRequest != null) {
+            try {
+                return pendingRequest.get();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                return null;
+            } catch (ExecutionException e) {
+                return null;
+            }
+        }
+
+        return null;
+    }
+
+    private class PendingRequest implements Future<String> {
+        private final CountDownLatch latch = new CountDownLatch(1);
+        private final String request;
+
+        public PendingRequest(String request) {
+            this.request = request;
+        }
+
+        @Override
+        public boolean cancel(boolean mayInterruptIfRunning) {
+            return false;
+        }
+
+        @Override
+        public boolean isCancelled() {
+            return false;
+        }
+
+        @Override
+        public boolean isDone() {
+            return latch.getCount() == 0;
+        }
+
+        @Override
+        public String get() throws InterruptedException, ExecutionException {
+            latch.await();
+            return cache.get(request);
+        }
+
+        @Override
+        public String get(long timeout, TimeUnit unit) throws InterruptedException, TimeoutException {
+            if (latch.await(timeout, unit)) {
+                return cache.get(request);
+            } else {
+                throw new TimeoutException();
+            }
+        }
+
+        void done() {
+            latch.countDown();
         }
     }
 }
