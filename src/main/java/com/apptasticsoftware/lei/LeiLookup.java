@@ -36,7 +36,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.concurrent.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
@@ -62,6 +62,7 @@ public class LeiLookup {
     private final int searchMissCacheSize;
     private final ConcurrentSkipListMap<String, Lei> cache;
     private final ConcurrentSkipListMap<String, Integer> searchMissCache;
+    private final ConcurrentHashMap<String, PendingRequest> pendingRequests = new ConcurrentHashMap<>();
 
 
     /**
@@ -200,12 +201,21 @@ public class LeiLookup {
             return Optional.empty();
         }
 
+        var pendingRequest = getPendingRequest(code);
+        if (pendingRequest != null) {
+            return Optional.ofNullable(getPendingResult(code));
+        }
+
+        pendingRequest = pendingRequests.get(code);
+
         Optional<Lei> searchResult = search(List.of(code), url, 1).getKey().stream().findFirst();
         if (searchResult.isPresent()) {
             put(code, searchResult.get());
         } else {
             put(code);
         }
+        pendingRequest.done();
+        pendingRequests.remove(code);
         return searchResult;
     }
 
@@ -661,5 +671,75 @@ public class LeiLookup {
             return null;
         }
         return jsonReader.nextString();
+    }
+
+    private PendingRequest getPendingRequest(String request) {
+        PendingRequest newPendingRequest = new PendingRequest(request);
+        PendingRequest pendingRequest = pendingRequests.computeIfAbsent(request, (k) -> newPendingRequest);
+
+        if (newPendingRequest != pendingRequest) {
+            return newPendingRequest;
+        }
+
+        return null;
+    }
+
+    private Lei getPendingResult(String request) {
+        var pendingRequest = pendingRequests.get(request);
+        if (pendingRequest != null) {
+            try {
+                return pendingRequest.get();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                return null;
+            } catch (ExecutionException e) {
+                return null;
+            }
+        }
+
+        return null;
+    }
+
+    private class PendingRequest implements Future<Lei> {
+        private final CountDownLatch latch = new CountDownLatch(1);
+        private final String request;
+
+        public PendingRequest(String request) {
+            this.request = request;
+        }
+
+        @Override
+        public boolean cancel(boolean mayInterruptIfRunning) {
+            return false;
+        }
+
+        @Override
+        public boolean isCancelled() {
+            return false;
+        }
+
+        @Override
+        public boolean isDone() {
+            return latch.getCount() == 0;
+        }
+
+        @Override
+        public Lei get() throws InterruptedException, ExecutionException {
+            latch.await();
+            return cache.get(request);
+        }
+
+        @Override
+        public Lei get(long timeout, TimeUnit unit) throws InterruptedException, TimeoutException {
+            if (latch.await(timeout, unit)) {
+                return cache.get(request);
+            } else {
+                throw new TimeoutException();
+            }
+        }
+
+        void done() {
+            latch.countDown();
+        }
     }
 }
