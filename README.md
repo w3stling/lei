@@ -2,7 +2,7 @@ Legal Entity Identifier (LEI)
 =============================
 
 [![Build](https://github.com/w3stling/lei/actions/workflows/build.yml/badge.svg)](https://github.com/w3stling/lei/actions/workflows/build.yml)
-[![Download](https://img.shields.io/badge/download-3.3.0-brightgreen.svg)](https://search.maven.org/artifact/com.apptasticsoftware/lei/3.3.0/jar)
+[![Download](https://img.shields.io/badge/download-3.3.0-brightgreen.svg)](https://central.sonatype.com/artifact/com.apptasticsoftware/lei/3.3.0/overview)
 [![Javadoc](https://img.shields.io/badge/javadoc-3.3.0-blue.svg)](https://w3stling.github.io/lei/javadoc/3.3.0)
 [![License](http://img.shields.io/:license-MIT-blue.svg?style=flat-round)](http://apptastic-software.mit-license.org)   
 [![CodeQL](https://github.com/w3stling/lei/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/w3stling/lei/actions/workflows/codeql-analysis.yml)
@@ -152,6 +152,6 @@ License
     SOFTWARE.
 
 
-[1]: https://search.maven.org/artifact/com.apptasticsoftware/lei/3.3.0/jar
+[1]: https://central.sonatype.com/artifact/com.apptasticsoftware/lei/3.3.0/overview
 [2]: https://maven.apache.org
 [3]: https://gradle.org
