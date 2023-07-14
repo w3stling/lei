@@ -1,5 +1,8 @@
 package com.apptasticsoftware.lei;
 
+/**
+ * Class for validating CUSIP codes
+ */
 public final class CusipValidator {
 
     private CusipValidator() {

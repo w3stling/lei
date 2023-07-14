@@ -187,6 +187,13 @@ public class LeiLookup {
         return getLei(isinNumber.orElse(null), BASE_URL_ISIN, IsinCodeValidator::isValid);
     }
 
+    /**
+     * Get LEI
+     * @param code code
+     * @param url url
+     * @param validator validator
+     * @return LEI if found
+     */
     protected Optional<Lei> getLei(String code, String url, Predicate<String> validator) {
         if (code == null) {
             return Optional.empty();
@@ -219,6 +226,14 @@ public class LeiLookup {
         return searchResult;
     }
 
+
+    /**
+     * Get a list of LEI
+     * @param cacheKey cacheKey
+     * @param validator validator
+     * @param codes codes
+     * @return List of LEI
+     */
     protected List<Lei> getLeiList(Function<Lei, String> cacheKey, Predicate<String> validator, Collection<String> codes) {
         List<String> searchForCodes = codes.stream()
                                            .distinct()

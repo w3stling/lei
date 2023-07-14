@@ -2,6 +2,9 @@ package com.apptasticsoftware.lei;
 
 import java.util.Set;
 
+/**
+ * Class for validating SEDOL codes
+ */
 public final class SedolValidator {
     private static final int[] WEIGHT = new int[] {1, 3, 1, 7, 3, 9, 1};
     private static final Set<Character> UPPERCASE_CONSONANTS = Set.of('B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z');

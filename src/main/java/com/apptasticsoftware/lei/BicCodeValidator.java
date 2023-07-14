@@ -3,6 +3,9 @@ package com.apptasticsoftware.lei;
 import java.util.Arrays;
 import java.util.Locale;
 
+/**
+ * Class for validating BIC codes
+ */
 public final class BicCodeValidator {
 
     private static final String [] COUNTRY_CODES = Locale.getISOCountries();
