@@ -416,7 +416,7 @@ public class LeiLookup {
         jsonReader.endObject();
     }
 
-    @SuppressWarnings({"squid:S3776", "squid:S3776"})
+    @SuppressWarnings({"squid:S3776", "squid:S3776", "squid:S6541"})
     private void parseEntity(JsonReader jsonReader, Lei lei) throws IOException {
         jsonReader.beginObject();
 
@@ -577,7 +577,7 @@ public class LeiLookup {
         return registrationAuthority;
     }
 
-    @SuppressWarnings("squid:S3776")
+    @SuppressWarnings({"squid:S3776", "squid:S6541"})
     private Lei.Registration parseRegistration(JsonReader jsonReader) throws IOException {
         jsonReader.beginObject();
         Lei.Registration registration = new Lei.Registration();
