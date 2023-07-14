@@ -175,7 +175,9 @@ extends java.lang.Object</pre>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getLei(java.lang.String,java.lang.String,java.util.function.Predicate)">getLei</a></span>&#8203;(java.lang.String&nbsp;code,
       java.lang.String&nbsp;url,
       java.util.function.Predicate&lt;java.lang.String&gt;&nbsp;validator)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Get LEI</div>
+</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>java.util.Optional&lt;<a href="Lei.html" title="class in com.apptasticsoftware.lei">Lei</a>&gt;</code></td>
@@ -240,7 +242,9 @@ extends java.lang.Object</pre>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getLeiList(java.util.function.Function,java.util.function.Predicate,java.util.Collection)">getLeiList</a></span>&#8203;(java.util.function.Function&lt;<a href="Lei.html" title="class in com.apptasticsoftware.lei">Lei</a>,&#8203;java.lang.String&gt;&nbsp;cacheKey,
           java.util.function.Predicate&lt;java.lang.String&gt;&nbsp;validator,
           java.util.Collection&lt;java.lang.String&gt;&nbsp;codes)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Get a list of LEI</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -441,6 +445,15 @@ public&nbsp;java.util.List&lt;<a href="Lei.html" title="class in com.apptasticso
 <pre class="methodSignature">protected&nbsp;java.util.Optional&lt;<a href="Lei.html" title="class in com.apptasticsoftware.lei">Lei</a>&gt;&nbsp;getLei&#8203;(java.lang.String&nbsp;code,
                                          java.lang.String&nbsp;url,
                                          java.util.function.Predicate&lt;java.lang.String&gt;&nbsp;validator)</pre>
+<div class="block">Get LEI</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>code</code> - code</dd>
+<dd><code>url</code> - url</dd>
+<dd><code>validator</code> - validator</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>LEI if found</dd>
+</dl>
 </li>
 </ul>
 <a id="getLeiList(java.util.function.Function,java.util.function.Predicate,java.util.Collection)">
@@ -452,6 +465,15 @@ public&nbsp;java.util.List&lt;<a href="Lei.html" title="class in com.apptasticso
 <pre class="methodSignature">protected&nbsp;java.util.List&lt;<a href="Lei.html" title="class in com.apptasticsoftware.lei">Lei</a>&gt;&nbsp;getLeiList&#8203;(java.util.function.Function&lt;<a href="Lei.html" title="class in com.apptasticsoftware.lei">Lei</a>,&#8203;java.lang.String&gt;&nbsp;cacheKey,
                                          java.util.function.Predicate&lt;java.lang.String&gt;&nbsp;validator,
                                          java.util.Collection&lt;java.lang.String&gt;&nbsp;codes)</pre>
+<div class="block">Get a list of LEI</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>cacheKey</code> - cacheKey</dd>
+<dd><code>validator</code> - validator</dd>
+<dd><code>codes</code> - codes</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>List of LEI</dd>
+</dl>
 </li>
 </ul>
 </li>
