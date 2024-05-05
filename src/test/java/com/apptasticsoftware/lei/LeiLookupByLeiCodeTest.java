@@ -43,11 +43,11 @@ class LeiLookupByLeiCodeTest {
 
         assertEquals("2012-06-06T15:51:15Z", lei.get().getRegistration().getInitialRegistrationDate());
         assertEquals(ZonedDateTime.parse("2012-06-06T15:51:15Z"), lei.get().getRegistration().getInitialRegistrationDateZonedDateTime());
-        assertEquals("2023-04-14T08:01:42Z", lei.get().getRegistration().getLastUpdateDate());
-        assertEquals(ZonedDateTime.parse("2023-04-14T08:01:42Z"), lei.get().getRegistration().getLastUpdateDateZonedDateTime());
+        assertEquals("2024-04-26T11:55:56Z", lei.get().getRegistration().getLastUpdateDate());
+        assertEquals(ZonedDateTime.parse("2024-04-26T11:55:56Z"), lei.get().getRegistration().getLastUpdateDateZonedDateTime());
         assertEquals("5299000J2N45DDNE4Y28", lei.get().getRegistration().getManagingLOU());
-        assertEquals("2024-06-02T06:47:59Z", lei.get().getRegistration().getNextRenewalDate());
-        assertEquals(ZonedDateTime.parse("2024-06-02T06:47:59Z"), lei.get().getRegistration().getNextRenewalDateZonedDateTime());
+        assertEquals("2025-06-02T06:47:59Z", lei.get().getRegistration().getNextRenewalDate());
+        assertEquals(ZonedDateTime.parse("2025-06-02T06:47:59Z"), lei.get().getRegistration().getNextRenewalDateZonedDateTime());
         assertEquals(Lei.RegistrationStatus.ISSUED, lei.get().getRegistration().getRegistrationStatus());
         assertEquals("HRB 30000", lei.get().getRegistration().getValidationAuthorityEntityID());
         assertEquals("RA000242", lei.get().getRegistration().getValidationAuthorityID());
