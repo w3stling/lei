@@ -90,9 +90,9 @@ class IsinLookupTest {
     void pendingRequestLookupByCusip() {
         var cusipList = List.of("931142103", "931142103", "931142103", "931142103", "931142103", "931142103");
 
-        IsinLookup lookup = new IsinLookup(35);
+        var isinLookup = new IsinLookup(35);
 
-        cusipList.stream().parallel().forEach(cusip -> assertTrue(lookup.getIsinByCusip(cusip).isPresent()));
+        cusipList.stream().parallel().forEach(cusip -> assertTrue(isinLookup.getIsinByCusip(cusip).isPresent()));
     }
 
     @Test
@@ -148,9 +148,9 @@ class IsinLookupTest {
     void pendingRequestLookupBySedol() {
         var sedolList = List.of("0884709", "0884709", "0884709", "0884709", "0884709", "0884709");
 
-        IsinLookup lookup = new IsinLookup(36);
+        var isinLookup = new IsinLookup(36);
 
-        sedolList.stream().parallel().forEach(sedol -> assertTrue(lookup.getIsinBySedol(sedol).isPresent()));
+        sedolList.stream().parallel().forEach(sedol -> assertTrue(isinLookup.getIsinBySedol(sedol).isPresent()));
     }
 
     @Test
