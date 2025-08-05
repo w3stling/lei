@@ -2,8 +2,8 @@ Legal Entity Identifier (LEI)
 =============================
 
 [![Build](https://github.com/w3stling/lei/actions/workflows/build.yml/badge.svg)](https://github.com/w3stling/lei/actions/workflows/build.yml)
-[![Download](https://img.shields.io/badge/download-3.3.7-brightgreen.svg)](https://central.sonatype.com/artifact/com.apptasticsoftware/lei/3.3.7/overview)
-[![Javadoc](https://img.shields.io/badge/javadoc-3.3.7-blue.svg)](https://w3stling.github.io/lei/javadoc/3.3.7)
+[![Download](https://img.shields.io/badge/download-3.3.8-brightgreen.svg)](https://central.sonatype.com/artifact/com.apptasticsoftware/lei/3.3.8/overview)
+[![Javadoc](https://img.shields.io/badge/javadoc-3.3.8-blue.svg)](https://w3stling.github.io/lei/javadoc/3.3.8)
 [![License](http://img.shields.io/:license-MIT-blue.svg?style=flat-round)](http://apptastic-software.mit-license.org)   
 [![CodeQL](https://github.com/w3stling/lei/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/w3stling/lei/actions/workflows/codeql-analysis.yml)
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=w3stling_lei&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=w3stling_lei)
@@ -109,7 +109,7 @@ Add dependency declaration:
         <dependency>
             <groupId>com.apptasticsoftware</groupId>
             <artifactId>lei</artifactId>
-            <version>3.3.7</version>
+            <version>3.3.8</version>
         </dependency>
     </dependencies>
     ...
@@ -120,7 +120,7 @@ Add dependency declaration:
 Add dependency declaration:
 ```groovy
 dependencies {
-    implementation 'com.apptasticsoftware:lei:3.3.7'
+    implementation 'com.apptasticsoftware:lei:3.3.8'
 }
 ```
 
@@ -152,6 +152,6 @@ License
     SOFTWARE.
 
 
-[1]: https://central.sonatype.com/artifact/com.apptasticsoftware/lei/3.3.7/overview
+[1]: https://central.sonatype.com/artifact/com.apptasticsoftware/lei/3.3.8/overview
 [2]: https://maven.apache.org
 [3]: https://gradle.org
