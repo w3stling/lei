@@ -208,7 +208,6 @@ public class IsinLookup {
                     .header("accept", "*/*")
                     .header("accept-encoding", "gzip, deflate")
                     .header("accept-language", "en-GB,en-US;q=0.9,en;q=0.8,sv;q=0.7")
-                    .header("content-length", String.valueOf(data.length()))
                     .header("content-type", "application/x-www-form-urlencoded")
                     .header("origin", "https://www.isindb.com")
                     .header("referer", referer)
