@@ -56,9 +56,9 @@ public final class IsinCodeValidator {
     public static boolean isValid(String isinCode) {
         return isinCode != null &&
                isinCode.length() == 12 &&
-               Character.isUpperCase(isinCode.charAt(0)) &&
-               Character.isUpperCase(isinCode.charAt(1)) &&
-               Character.isDigit(isinCode.charAt(11)) &&
+               AsciiCharacter.isUpperCase(isinCode.charAt(0)) &&
+               AsciiCharacter.isUpperCase(isinCode.charAt(1)) &&
+               AsciiCharacter.isDigit(isinCode.charAt(11)) &&
                isUppercaseAlphanumeric(isinCode.substring(2, 11)) &&
                isCountryCode(isinCode.substring(0, 2)) &&
                isChecksumValid(isinCode);
@@ -72,7 +72,7 @@ public final class IsinCodeValidator {
         final int sz = cs.length();
         for (int i = 0; i < sz; i++) {
             char c = cs.charAt(i);
-            if (!(Character.isUpperCase(c) || Character.isDigit(c))) {
+            if (!(AsciiCharacter.isUpperCase(c) || AsciiCharacter.isDigit(c))) {
                 return false;
             }
         }
@@ -100,7 +100,7 @@ public final class IsinCodeValidator {
 
         for (int i = 0; i < isinCode.length() - 1; ++i) {
             int c = isinCode.charAt(i);
-            if (Character.isUpperCase(c)) {
+            if (AsciiCharacter.isUpperCase(c)) {
                 c = c - 55;
                 if (add(c / 10, index, oddIndex, odd, evenIndex, even)) {
                     ++oddIndex;

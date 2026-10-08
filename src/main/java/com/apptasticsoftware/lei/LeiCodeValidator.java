@@ -40,9 +40,9 @@ public final class LeiCodeValidator {
     public static boolean isValid(String leiCode) {
         return leiCode != null &&
                 leiCode.length() == 20 &&
-                Character.isDigit(leiCode.charAt(18)) &&
-                Character.isDigit(leiCode.charAt(19)) &&
-                isUppercaseAlphanumeric(leiCode.substring(0, 17)) &&
+                AsciiCharacter.isDigit(leiCode.charAt(18)) &&
+                AsciiCharacter.isDigit(leiCode.charAt(19)) &&
+                isUppercaseAlphanumeric(leiCode.substring(0, 18)) &&
                 isChecksumValid(leiCode);
     }
 
@@ -54,7 +54,7 @@ public final class LeiCodeValidator {
         final int sz = cs.length();
         for (int i = 0; i < sz; i++) {
             char c = cs.charAt(i);
-            if (!(Character.isUpperCase(c) || Character.isDigit(c))) {
+            if (!(AsciiCharacter.isUpperCase(c) || AsciiCharacter.isDigit(c))) {
                 return false;
             }
         }
