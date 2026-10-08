@@ -1,5 +1,6 @@
 package com.apptasticsoftware.lei;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -78,6 +79,7 @@ class IsinLookupTest {
     };
 
 
+    @Disabled("On line lookup service is not available")
     @Test
     void lookupByCusip() {
         assertTrue(lookup.getIsinByCusip("931142103").isPresent());
@@ -86,6 +88,7 @@ class IsinLookupTest {
         assertFalse(lookup.getIsinByCusip("0@7833105").isPresent());
     }
 
+    @Disabled("On line lookup service is not available")
     @Test
     void pendingRequestLookupByCusip() {
         var cusipList = List.of("931142103", "931142103", "931142103", "931142103", "931142103", "931142103");
@@ -95,6 +98,7 @@ class IsinLookupTest {
         cusipList.stream().parallel().forEach(cusip -> assertTrue(isinLookup.getIsinByCusip(cusip).isPresent()));
     }
 
+    @Disabled("On line lookup service is not available")
     @Test
     void lookupByCusipMethod1() {
         assertTrue(lookup1.getIsinByCusip("931142103").isPresent());
@@ -102,6 +106,7 @@ class IsinLookupTest {
         assertFalse(lookup.getIsinByCusip("").isPresent());
     }
 
+    @Disabled("On line lookup service is not available")
     @Test
     void lookupByCusipMethod1Parse1() {
         assertTrue(lookup1Parse1.getIsinByCusip("931142103").isPresent());
@@ -109,6 +114,7 @@ class IsinLookupTest {
         assertFalse(lookup1Parse1.getIsinByCusip("").isPresent());
     }
 
+    @Disabled("On line lookup service is not available")
     @Test
     void lookupByCusipMethod1Parse2() {
         assertTrue(lookup1Parse2.getIsinByCusip("931142103").isPresent());
@@ -116,6 +122,7 @@ class IsinLookupTest {
         assertFalse(lookup1Parse2.getIsinByCusip("").isPresent());
     }
 
+    @Disabled("On line lookup service is not available")
     @Test
     void lookupByCusipMethod2() {
         assertTrue(lookup2.getIsinByCusip("931142103").isPresent());
@@ -123,6 +130,7 @@ class IsinLookupTest {
         assertFalse(lookup.getIsinByCusip("").isPresent());
     }
 
+    @Disabled("On line lookup service is not available")
     @Test
     void lookupByCusipMethod2Parse1() {
         assertTrue(lookup2Parse1.getIsinByCusip("931142103").isPresent());
@@ -130,6 +138,7 @@ class IsinLookupTest {
         assertFalse(lookup2Parse1.getIsinByCusip("").isPresent());
     }
 
+    @Disabled("On line lookup service is not available")
     @Test
     void lookupByCusipMethod2Parse2() {
         assertTrue(lookup2Parse2.getIsinByCusip("931142103").isPresent());
@@ -137,6 +146,7 @@ class IsinLookupTest {
         assertFalse(lookup2Parse2.getIsinByCusip("").isPresent());
     }
 
+    @Disabled("On line lookup service is not available")
     @Test
     void lookupBySedol() {
         assertTrue(lookup.getIsinBySedol("0884709").isPresent());
@@ -144,6 +154,7 @@ class IsinLookupTest {
         assertFalse(lookup.getIsinBySedol("").isPresent());
     }
 
+    @Disabled("On line lookup service is not available")
     @Test
     void pendingRequestLookupBySedol() {
         var sedolList = List.of("0884709", "0884709", "0884709", "0884709", "0884709", "0884709");
@@ -153,6 +164,7 @@ class IsinLookupTest {
         sedolList.stream().parallel().forEach(sedol -> assertTrue(isinLookup.getIsinBySedol(sedol).isPresent()));
     }
 
+    @Disabled("On line lookup service is not available")
     @Test
     void lookupBySedolMethod1() {
         assertTrue(lookup1.getIsinBySedol("0884709").isPresent());
@@ -160,6 +172,7 @@ class IsinLookupTest {
         assertFalse(lookup.getIsinBySedol("").isPresent());
     }
 
+    @Disabled("On line lookup service is not available")
     @Test
     void lookupBySedolMethod1Parse1() {
         assertTrue(lookup1Parse1.getIsinBySedol("0884709").isPresent());
@@ -167,6 +180,7 @@ class IsinLookupTest {
         assertFalse(lookup1Parse1.getIsinBySedol("").isPresent());
     }
 
+    @Disabled("On line lookup service is not available")
     @Test
     void lookupBySedolMethod1Parse12() {
         assertTrue(lookup1Parse2.getIsinBySedol("0884709").isPresent());
@@ -174,6 +188,7 @@ class IsinLookupTest {
         assertFalse(lookup1Parse2.getIsinBySedol("").isPresent());
     }
 
+    @Disabled("On line lookup service is not available")
     @Test
     void lookupBySedolMethod2() {
         assertTrue(lookup2.getIsinBySedol("0884709").isPresent());
@@ -181,6 +196,7 @@ class IsinLookupTest {
         assertFalse(lookup.getIsinBySedol("").isPresent());
     }
 
+    @Disabled("On line lookup service is not available")
     @Test
     void lookupBySedolMethod2Parse1() {
         assertTrue(lookup2Parse1.getIsinBySedol("0884709").isPresent());
@@ -188,6 +204,7 @@ class IsinLookupTest {
         assertFalse(lookup2Parse1.getIsinBySedol("").isPresent());
     }
 
+    @Disabled("On line lookup service is not available")
     @Test
     void lookupBySedolMethod2Parse2() {
         assertTrue(lookup2Parse2.getIsinBySedol("0884709").isPresent());
