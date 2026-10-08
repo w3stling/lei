@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class LeiLookupByCusipTest {
 
-    @Disabled("On line lookup service is not available")
+    @Disabled("The online lookup service is unavailable")
     @Test
     void testFound() {
         LeiLookup leiLookup = LeiLookup.getInstance();
