@@ -55,6 +55,7 @@ public class IsinLookup {
      * @param cusip CUSIP
      * @return ISIN
      */
+    @Deprecated(since = "3.3.10")
     public Optional<String> getIsinByCusip(String cusip) {
         if (!CusipValidator.isValid(cusip)) {
             return Optional.empty();
@@ -104,6 +105,7 @@ public class IsinLookup {
      * @param sedol SEDOL
      * @return ISIN
      */
+    @Deprecated(since = "3.3.10")
     public Optional<String> getIsinBySedol(String sedol) {
         if (!SedolValidator.isValid(sedol)) {
             return Optional.empty();

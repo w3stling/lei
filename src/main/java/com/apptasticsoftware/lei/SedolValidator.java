@@ -21,7 +21,7 @@ public final class SedolValidator {
     public static boolean isValid(String sedol) {
         return sedol != null &&
                sedol.length() == 7 &&
-               Character.isDigit(sedol.codePointAt(6)) &&
+               AsciiCharacter.isDigit(sedol.codePointAt(6)) &&
                isUppercaseAlphanumeric(sedol) &&
                isCheckDigitValid(sedol);
     }
@@ -30,7 +30,7 @@ public final class SedolValidator {
         final int sz = cs.length();
         for (int i = 0; i < sz; i++) {
             char c = cs.charAt(i);
-            if (!((Character.isUpperCase(c) && isConsonant(c)) || Character.isDigit(c))) {
+            if (!((AsciiCharacter.isUpperCase(c) && isConsonant(c)) || AsciiCharacter.isDigit(c))) {
                 return false;
             }
         }
