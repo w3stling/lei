@@ -51,7 +51,7 @@ public final class BicCodeValidator {
         final int sz = cs.length();
         for (int i = 0; i < sz; i++) {
             char c = cs.charAt(i);
-            if (!(Character.isUpperCase(c))) {
+            if (!(AsciiCharacter.isUpperCase(c))) {
                 return false;
             }
         }
@@ -72,7 +72,7 @@ public final class BicCodeValidator {
         final int sz = cs.length();
         for (int i = 0; i < sz; i++) {
             char c = cs.charAt(i);
-            if (!(Character.isUpperCase(c) || Character.isDigit(c))) {
+            if (!(AsciiCharacter.isUpperCase(c) || AsciiCharacter.isDigit(c))) {
                 return false;
             }
         }

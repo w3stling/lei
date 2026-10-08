@@ -17,7 +17,7 @@ public final class CusipValidator {
     public static boolean isValid(String cusip) {
         return cusip != null &&
                cusip.length() == 9 &&
-               Character.isDigit(cusip.codePointAt(8)) &&
+               AsciiCharacter.isDigit(cusip.codePointAt(8)) &&
                isUppercaseAlphanumeric(cusip) &&
                isCheckDigitValid(cusip);
     }
@@ -26,7 +26,7 @@ public final class CusipValidator {
         final int sz = cs.length();
         for (int i = 0; i < sz; i++) {
             char c = cs.charAt(i);
-            if (!(Character.isUpperCase(c) || Character.isDigit(c) || c == '*' || c == '@' || c == '#')) {
+            if (!(AsciiCharacter.isUpperCase(c) || AsciiCharacter.isDigit(c) || c == '*' || c == '@' || c == '#')) {
                 return false;
             }
         }
@@ -44,9 +44,9 @@ public final class CusipValidator {
         for (int p = 1; p <= cusip.length(); ++p) {
             int value = 0;
             int c = cusip.codePointAt(p-1);
-            if (Character.isDigit(c)) {
+            if (AsciiCharacter.isDigit(c)) {
                 value = c - 48;
-            } else if (Character.isUpperCase(c)) {
+            } else if (AsciiCharacter.isUpperCase(c)) {
                 value = c - 64 + 9;
             } else if (c == '*') {
                 value = 36;
