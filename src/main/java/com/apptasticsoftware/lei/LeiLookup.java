@@ -172,6 +172,7 @@ public class LeiLookup {
      * @param cusip - CUSIP
      * @return lei
      */
+    @Deprecated(since="3.3.10")
     public Optional<Lei> getLeiByCusip(String cusip) {
         var isinNumber = isinLookup.getIsinByCusip(cusip);
         return getLei(isinNumber.orElse(null), BASE_URL_ISIN, IsinCodeValidator::isValid);
@@ -182,6 +183,7 @@ public class LeiLookup {
      * @param sedol - SEDOL
      * @return lei
      */
+    @Deprecated(since="3.3.10")
     public Optional<Lei> getLeiBySedol(String sedol) {
         var isinNumber = isinLookup.getIsinBySedol(sedol);
         return getLei(isinNumber.orElse(null), BASE_URL_ISIN, IsinCodeValidator::isValid);

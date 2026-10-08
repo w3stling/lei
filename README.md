@@ -45,25 +45,13 @@ Optional<Lei> lei = lookup.getLeiByLeiCode("W22LROWP2IHZNBB6K528");
 Search LEI by ISIN code
 ```java
 LeiLookup lookup = LeiLookup.getInstance();
-Optional<Lei> lei = lookup.getLeiByIsinCode("US0378331005");
+Optional<Lei> lei = lookup.getLeiByIsin("US0378331005");
 ```
 
 Search LEI by BIC code
 ```java
 LeiLookup lookup = LeiLookup.getInstance();
-Optional<Lei> lei = lookup.getLeiByBicCode("BUKBGB22XXX");
-```
-
-Search LEI by CUSIP
-```java
-LeiLookup lookup = LeiLookup.getInstance();
-Optional<Lei> lei = lookup.getLeiByCusip("931142103");
-```
-
-Search LEI by SEDOL
-```java
-LeiLookup lookup = LeiLookup.getInstance();
-Optional<Lei> lei = lookup.getLeiBySedol("0884709");
+Optional<Lei> lei = lookup.getLeiByBic("BUKBGB22XXX");
 ```
 
 Validation examples
